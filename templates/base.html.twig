@@ -2,11 +2,16 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        {% block stylesheets %}
+            <link href="{{ asset("asset/css/bootstrap.css") }}" rel="stylesheet" />
+            <link href="{{ asset("asset/css/auth.css") }}" rel="stylesheet" />
+        {% endblock %}
+        {% block javascripts %}
+            <script src="{{ asset("asset/js/jquery-3.3.1.js") }}"></script>
+            <script src="{{ asset("asset/js/bootstrap.js") }}"></script>
+        {% endblock %}
     </head>
     <body>
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
     </body>
 </html>
