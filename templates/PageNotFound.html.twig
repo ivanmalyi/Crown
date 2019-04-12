@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <link type="text/css" href="asset/css/PageNotFoundStyle.css" rel="stylesheet" />
+    {% block stylesheets %}
+        <link href="{{ asset("asset/css/PageNotFoundStyle.css") }}" rel="stylesheet" />
+    {% endblock  %}
     <meta charset="UTF-8">
     <title>Pagen Not Found</title>
 </head>
