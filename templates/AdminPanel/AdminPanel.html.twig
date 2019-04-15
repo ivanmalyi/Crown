@@ -1,7 +1,31 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
-    {% if login == inputLogin and password == inputPassword %}
-        <h1>adminpanel</h1>
-    {% endif %}
+    <div class="row">
+        <form class="text-center m-5">
+            <div class="form-group" >
+                <div class="col-xs-6 col-sm-5">
+                    <span class="form-control-lg"><a>Локализация</a></span>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5 col-sm-5">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#localizationAdd">
+                            Добавить локализацию
+                        </button>
+                    </div>
+                    <div class="col-xs-5 col-sm-2"></div>
+                    <div class="col-xs-5 col-sm-5">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#localizationChange">
+                            Изменить локализацию
+                        </button>
+                    </div>
+                </div>
+                {% include "AdminPanel/LocalizationChange.html.twig" %}
+            </div>
+        </form>
+    </div>
+    {#
+{% if login == inputLogin and password == inputPassword %}
+
+    {% endif %}#}
 {% endblock %}

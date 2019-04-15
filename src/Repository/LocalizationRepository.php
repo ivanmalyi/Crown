@@ -32,14 +32,13 @@ class LocalizationRepository extends ServiceEntityRepository
     {
         $conn = $this->getEntityManager()->getConnection();
 
-        $sql = 'insert into localization (name, tag, title) value (:name, :tag, :title)';
+        $sql = 'insert into localization (name, tag) value (:name, :tag)';
         $stmt = $conn->prepare($sql);
 
         return $stmt->execute(
             [
                 'name' => $localization->getName(),
-                'tag'=>$localization->getTag(),
-                'title'=>$localization->getTitle()
+                'tag'=>$localization->getTag()
             ]
         );
     }

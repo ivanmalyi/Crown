@@ -26,11 +26,6 @@ class Localization
      */
     private $tag;
 
-    /**
-     * @ORM\Column(type="string", length=50)
-     */
-    private $title;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -74,20 +69,7 @@ class Localization
         $localization = new Localization();
         $localization->setName(isset($data['name']) ? $data['name']: '');
         $localization->setTag(isset($data['tag']) ? $data['tag']: '');
-        $localization->setTitle(isset($data['title']) ? $data['title']: '');
 
         return $localization;
-    }
-
-    public function getTitle(): ?string
-    {
-        return $this->title;
-    }
-
-    public function setTitle(string $title): self
-    {
-        $this->title = $title;
-
-        return $this;
     }
 }

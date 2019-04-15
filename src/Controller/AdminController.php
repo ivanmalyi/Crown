@@ -10,6 +10,7 @@ use App\Entity\Statuses\CommandStatus;
 use App\Facade\LocalizationFacade;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AdminController extends AbstractController
@@ -41,11 +42,15 @@ class AdminController extends AbstractController
             );
         }
 
-        return $this->render('AdminPanel/Auth.html.twig');
+       // return $this->render('AdminPanel/Auth.html.twig');
+        return $this->render('AdminPanel/AdminPanel.html.twig');
     }
 
     /**
      * @Route("/LocalizationAction")
+     *
+     * @param Request $request
+     * @return Response
      */
     public function actionLocalization(Request $request)
     {
@@ -53,9 +58,11 @@ class AdminController extends AbstractController
         $command = $request->query->get('command');
         $login = $request->query->get('login');
         $password = $request->query->get('password');
-        $localization = Localization::validation($data);
 
-        $this->selectAction($localization, $command);
+        $localization = Localization::validation($data);
+        $response = $this->selectAction($localization, $command);
+
+        return new Response($response);
     }
 
     private function selectAction(Localization $localization, string $command)
@@ -63,7 +70,7 @@ class AdminController extends AbstractController
         $localizationFacade = new LocalizationFacade($this->getDoctrine());
 
         if ($command == CommandStatus::ADD_LOCALIZATION) {
-            $localizationFacade->saveLocalization($localization);
+            return $localizationFacade->saveLocalization($localization);
         }
     }
 }

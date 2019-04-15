@@ -6,8 +6,8 @@ namespace App\Facade;
 
 
 use App\Entity\Localization;
+use App\Entity\Statuses\ResponseStatus;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\ORM\Repository\RepositoryFactory;
 
 class LocalizationFacade
 {
@@ -22,8 +22,13 @@ class LocalizationFacade
         $this->managerRegistry = $managerRegistry;
     }
 
-    public function saveLocalization(Localization $localization)
+    public function saveLocalization(Localization $localization): int
     {
-        $this->managerRegistry->getRepository(Localization::class)->saveLocalization($localization);
+        try {
+            $this->managerRegistry->getRepository(Localization::class)->saveLocalization($localization);
+            return ResponseStatus::SUCCESS;
+        } catch (\Exception $e) {
+            return ResponseStatus::ERROR;
+        }
     }
 }
