@@ -5,16 +5,19 @@ declare(strict_types=1);
 namespace App\Facade;
 
 
+use App\Entity\AdminData;
 use App\Entity\Localization;
-use Symfony\Bundle\FrameworkBundle\Controller\ControllerTrait;
 
-class AdminFacade
+class AdminFacade extends AbstractFacade
 {
-    use ControllerTrait;
-
-    public function saveLocalization(Localization $localization)
+    public function findMainData(): AdminData
     {
-        $this->getDoctrine()->getRepository(Localization::class)
-            ->saveLocalization($localization);
+        $adminData = new AdminData();
+
+        $localizations = $this->managerRegistry->getRepository(Localization::class)->findAllLocalizations();
+        $adminData->setLocalizations($localizations);
+
+
+        return $adminData;
     }
 }

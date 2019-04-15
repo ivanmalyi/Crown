@@ -42,4 +42,80 @@ class LocalizationRepository extends ServiceEntityRepository
             ]
         );
     }
+
+    /**
+     * @return array
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    public function findAllLocalizations(): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = 'select id, name from localization';
+        $stmt = $conn->prepare($sql);
+
+         $stmt->execute([]);
+        $rows = $stmt->fetchAll();
+
+        $localizations = [];
+        foreach ($rows as $row) {
+            $localizations[] = $this->inflate($row);
+        }
+
+        return $localizations;
+    }
+
+    /**
+     * @param int $id
+     * @return Localization
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    public function findLocalizationById(int $id): Localization
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = 'select id, name, tag from localization
+                where id = :id';
+        $stmt = $conn->prepare($sql);
+
+        $stmt->execute(['id'=>$id]);
+        $row = $stmt->fetch();
+
+        return $this->inflate($row);
+    }
+
+    /**
+     * @param array $row
+     * @return Localization
+     */
+    private function inflate(array $row): Localization
+    {
+        $localization = new Localization();
+        $localization->setId((int)$row['id']);
+        $localization->setName($row['name'] ?? '');
+        $localization->setTag($row['tag'] ?? '');
+
+        return $localization;
+    }
+
+    /**
+     * @param Localization $localization
+     * @return int
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    public function updateLocalization(Localization $localization): int
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = 'update localization
+                set name = :name, tag = :tag
+                where id = :id';
+        $stmt = $conn->prepare($sql);
+
+        return $stmt->execute([
+            'id'=>$localization->getId(),
+            'name'=>$localization->getName(),
+            'tag'=>$localization->getTag()
+        ]);
+    }
 }

@@ -7,6 +7,7 @@ namespace App\Controller;
 
 use App\Entity\Localization;
 use App\Entity\Statuses\CommandStatus;
+use App\Facade\AdminFacade;
 use App\Facade\LocalizationFacade;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,9 +42,12 @@ class AdminController extends AbstractController
                 ]
             );
         }
+        $adminFacade = new AdminFacade($this->getDoctrine());
+        $adminData = $adminFacade->findMainData();
+
 
        // return $this->render('AdminPanel/Auth.html.twig');
-        return $this->render('AdminPanel/AdminPanel.html.twig');
+        return $this->render('AdminPanel/AdminPanel.html.twig', ['adminData'=>$adminData]);
     }
 
     /**
@@ -56,8 +60,6 @@ class AdminController extends AbstractController
     {
         $data = $request->query->get('data');
         $command = $request->query->get('command');
-        $login = $request->query->get('login');
-        $password = $request->query->get('password');
 
         $localization = Localization::validation($data);
         $response = $this->selectAction($localization, $command);
@@ -70,7 +72,13 @@ class AdminController extends AbstractController
         $localizationFacade = new LocalizationFacade($this->getDoctrine());
 
         if ($command == CommandStatus::ADD_LOCALIZATION) {
-            return $localizationFacade->saveLocalization($localization);
+            $response = $localizationFacade->saveLocalization($localization);
+        } elseif ($command == CommandStatus::FIND_LOCALIZATION) {
+            $response = $localizationFacade->findLocalization($localization);
+        } elseif ($command == CommandStatus::UPDATE_LOCALIZATION) {
+            $response = $localizationFacade->updateLocalization($localization);
         }
+
+        return $response;
     }
 }

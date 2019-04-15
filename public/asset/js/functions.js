@@ -19,8 +19,8 @@ function addLocalization() {
 
     if (name !== '' && tag !== '') {
         var data = JSON.stringify({
-            name: name,
-            tag: tag
+            Name: name,
+            Tag: tag
         });
 
         var isSave = confirm("Хотите добавить новый язык?");
@@ -40,5 +40,54 @@ function addLocalization() {
         }
     } else {
         alert('Не все поля заполнены');
+    }
+}
+
+function findLocalization(id) {
+    $(".active").removeClass("active");
+    $("#" + id).addClass("active");
+
+    var data = JSON.stringify({Id: id});
+    var command = 'FindLocalization';
+
+    $.ajax({
+        type: "GET",
+        url: '/LocalizationAction',
+        data: '?command=' + encodeURIComponent(command) + '&data=' + encodeURIComponent(data),
+        success: function (response) {
+            response = jQuery.parseJSON(response);
+            $("#change_localization_name").val(response.Name);
+            $("#change_localization_tag").val(response.Tag);
+            $("#change-locale").val(response.Id);
+        }
+    });
+}
+
+function updateLocalization(id) {
+    var name = $("#change_localization_name").val();
+    var tag = $("#change_localization_tag").val();
+
+    var data = JSON.stringify({
+        Id: id,
+        Name: name,
+        Tag: tag
+    });
+    var command = 'UpdateLocalization';
+
+    var isUpdate = confirm("Хотите добавить обновить язык?");
+
+    if (isUpdate) {
+        $.ajax({
+            type: "GET",
+            url: '/LocalizationAction',
+            data: '?command=' + encodeURIComponent(command) + '&data=' + encodeURIComponent(data),
+            success: function (response) {
+                if (parseInt(response) === 1) {
+                    alert('Изменено');
+                } else {
+                    alert('Не удалось изменить');
+                }
+            }
+        });
     }
 }

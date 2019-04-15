@@ -67,8 +67,9 @@ class Localization
     {
         $data = json_decode($json, true);
         $localization = new Localization();
-        $localization->setName(isset($data['name']) ? $data['name']: '');
-        $localization->setTag(isset($data['tag']) ? $data['tag']: '');
+        $localization->setId(isset($data['Id']) ? (int)$data['Id']: 0);
+        $localization->setName(isset($data['Name']) ? $data['Name']: '');
+        $localization->setTag(isset($data['Tag']) ? $data['Tag']: '');
 
         return $localization;
     }
