@@ -1,30 +1,44 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
-    <div class="row">
-        <form class="text-center m-5">
-            <div class="form-group" >
-                <div class="col-xs-6 col-sm-5">
+    <div class="container">
+        <div class="row">
+            <form class="text-center m-5">
+                <div class="form-group">
                     <span class="form-control-lg"><a>Локализация</a></span>
-                </div>
-                <div class="row">
-                    <div class="col-xs-5 col-sm-5">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#localizationAdd">
-                            Добавить локализацию
-                        </button>
-                        {% include "AdminPanel/LocalizationAdd.html.twig" %}
+                    <div class="row">
+                        <div class="col-xs-5 col-sm-5">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#localizationAdd">
+                                Добавить локализацию
+                            </button>
+                            {% include "AdminPanel/LocalizationAdd.html.twig" %}
+                        </div>
+                        <div class="col-xs-5 col-sm-2"></div>
+                        <div class="col-xs-5 col-sm-5">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#localizationChange">
+                                Изменить локализацию
+                            </button>
+                            {% set localizations = { 'localizations': adminData.getLocalizations} %}
+                            {% include "AdminPanel/LocalizationChange.html.twig" with localizations %}
+                        </div>
                     </div>
-                    <div class="col-xs-5 col-sm-2"></div>
-                    <div class="col-xs-5 col-sm-5">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#localizationChange">
-                            Изменить локализацию
-                        </button>
-                        {% set localizations = { 'localizations': adminData.getLocalizations} %}
-                        {% include "AdminPanel/LocalizationChange.html.twig" with localizations %}
+
+                <br>
+                <div class="form-group">
+                    <span class="form-control-lg"><a>Страна</a></span>
+                    <div class="row">
+                        <div class="col-xs-5 col-sm-5">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#countryAdd">
+                                Добавить страну
+                            </button>
+                            {% include "AdminPanel/CountryAdd.html.twig"  with localizations %}
+                        </div>
+                        <div class="col-xs-5 col-sm-2"></div>
+                        <div class="col-xs-5 col-sm-5"></div>
                     </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
     {#
 {% if login == inputLogin and password == inputPassword %}

@@ -51,7 +51,7 @@ class LocalizationRepository extends ServiceEntityRepository
     {
         $conn = $this->getEntityManager()->getConnection();
 
-        $sql = 'select id, name from localization';
+        $sql = 'select id, name, tag from localization';
         $stmt = $conn->prepare($sql);
 
          $stmt->execute([]);
@@ -117,5 +117,24 @@ class LocalizationRepository extends ServiceEntityRepository
             'name'=>$localization->getName(),
             'tag'=>$localization->getTag()
         ]);
+    }
+
+    /**
+     * @param string $tag
+     * @return Localization
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    public function findLocalizationByTag(string $tag): Localization
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = 'select id, name, tag from localization
+                where tag = :tag order by id desc limit 1';
+        $stmt = $conn->prepare($sql);
+
+        $stmt->execute(['tag'=>$tag]);
+        $row = $stmt->fetch();
+
+        return $this->inflate($row);
     }
 }

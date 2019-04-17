@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Controller;
 
 
+use App\Entity\CountryRequest;
 use App\Entity\Localization;
 use App\Entity\Statuses\CommandStatus;
 use App\Facade\AdminFacade;
+use App\Facade\CountryFacade;
 use App\Facade\LocalizationFacade;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -62,12 +64,12 @@ class AdminController extends AbstractController
         $command = $request->query->get('command');
 
         $localization = Localization::validation($data);
-        $response = $this->selectAction($localization, $command);
+        $response = $this->selectLocalizationAction($localization, $command);
 
         return new Response($response);
     }
 
-    private function selectAction(Localization $localization, string $command)
+    private function selectLocalizationAction(Localization $localization, string $command)
     {
         $localizationFacade = new LocalizationFacade($this->getDoctrine());
 
@@ -81,4 +83,33 @@ class AdminController extends AbstractController
 
         return $response;
     }
+
+    /**
+     * @Route("/CountryAction")
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function actionCountry(Request $request)
+    {
+        $data = json_decode($request->query->get('data'), true);
+        $command = $request->query->get('command');
+
+        $countryRequest = CountryRequest::validation($data);
+        $response = $this->selectCountryAction($countryRequest, $command);
+
+        return new Response($response);
+    }
+
+    private function selectCountryAction(CountryRequest $countryRequest, string $command)
+    {
+        $countryFacade = new CountryFacade($this->getDoctrine());
+        if ($command == CommandStatus::ADD_COUNTRY) {
+            $response = $countryFacade->saveCountry($countryRequest);
+        }
+
+        return $response;
+    }
+
+
 }
