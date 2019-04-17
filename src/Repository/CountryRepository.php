@@ -38,6 +38,40 @@ class CountryRepository extends ServiceEntityRepository
         $stmt->execute(['name' => $name]);
 
         return (int)$conn->lastInsertId();
+    }
 
+    /**
+     * @return array
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    public function findAllCountries()
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = 'select id, name from country';
+
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([]);
+        $rows =$stmt->fetchAll();
+
+        $countries = [];
+        foreach ($rows as $row) {
+            $countries[] = $this->inflate($row);
+        }
+
+        return $countries;
+    }
+
+    /**
+     * @param $row
+     * @return Country
+     */
+    private function inflate($row): Country
+    {
+        $country = new Country();
+        $country->setId($row['id']);
+        $country->setName($row['name']);
+
+        return $country;
     }
 }

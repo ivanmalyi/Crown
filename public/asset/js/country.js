@@ -40,3 +40,8 @@ function addCountry() {
         alert('Заполните название страны');
     }
 }
+
+function findCountry(id) {
+    $("#dropdownCountry .active").removeClass("active");
+    $("#dropdownCountry #" + id).addClass("active");
+}

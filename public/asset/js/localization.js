@@ -44,8 +44,8 @@ function addLocalization() {
 }
 
 function findLocalization(id) {
-    $(".active").removeClass("active");
-    $("#" + id).addClass("active");
+    $("#dropdownLocalization .active").removeClass("active");
+    $("#dropdownLocalization #" + id).addClass("active");
 
     var data = JSON.stringify({Id: id});
     var command = 'FindLocalization';
