@@ -59,8 +59,11 @@ class CountryRequest
         $countryRequest->setCountry(Country::validation($data));
 
         $countriesLocalizations = [];
-        foreach ($data['CountryLocalizations'] as $countryLocalization) {
-            $countriesLocalizations[] = CountriesLocalizations::validation($countryLocalization);
+
+        if (isset($data['CountryLocalizations'])) {
+            foreach ($data['CountryLocalizations'] as $countryLocalization) {
+                $countriesLocalizations[] = CountriesLocalizations::validation($countryLocalization);
+            }
         }
 
         $countryRequest->setCountriesLocalizations($countriesLocalizations);

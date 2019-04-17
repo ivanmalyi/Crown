@@ -50,4 +50,42 @@ class CountriesLocalizationsRepository extends ServiceEntityRepository
         $stmt = $conn->prepare(rtrim($sql, ','));
         return $stmt->execute($placeholders);
     }
+
+    /**
+     * @param int $id
+     * @return mixed
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    public function findCountry(int $id)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = 'select c.id, c.name, cl.title_name, cl.tag 
+                from countries_localizations as cl
+                left join country as c on c.id = cl.country_id
+                where cl.country_id = :id';
+
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(['id'=>$id]);
+
+        return $stmt->fetchAll();
+    }
+
+    public function updateCountryLocalization(CountriesLocalizations $countriesLocalizations, int $countryId): int
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = 'update countries_localizations
+                set title_name = :titleName
+                where country_id = :countryId and tag = :tag';
+
+        $stmt = $conn->prepare($sql);
+        return $stmt->execute(
+            [
+                'titleName' => $countriesLocalizations->getTitleName(),
+                'countryId'=> $countryId,
+                'tag'=>$countriesLocalizations->getTag(),
+            ]
+        );
+    }
 }

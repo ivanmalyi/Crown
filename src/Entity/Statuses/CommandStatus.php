@@ -11,4 +11,6 @@ class CommandStatus
     const FIND_LOCALIZATION = 'FindLocalization';
     const UPDATE_LOCALIZATION = 'UpdateLocalization';
     const ADD_COUNTRY = 'AddCountry';
+    const FIND_COUNTRY = 'FindCountry';
+    const UPDATE_COUNTRY = 'UpdateCountry';
 }

@@ -36,4 +36,47 @@ class CountryFacade extends AbstractFacade
 
         return $response;
     }
+
+    public function findCountry(int $id): string
+    {
+        try {
+            $params = $this->managerRegistry->getRepository(CountriesLocalizations::class)
+                ->findCountry($id);
+
+            $response = [];
+            foreach ($params as $param) {
+                $response[] = [
+                    "Id"=>$param["id"],
+                    "Name"=>$param["name"],
+                    "TitleName"=>$param["title_name"],
+                    "Tag"=>$param["tag"],
+                ];
+            }
+
+            $response = json_encode($response);
+        } catch (\Throwable $t) {
+            $response = json_encode([]);
+        }
+
+        return $response;
+    }
+
+    public function updateCountry(CountryRequest $countryRequest): int
+    {
+        try {
+            $this->managerRegistry->getRepository(Country::class)
+                -> updateCountry($countryRequest->getCountry()->getName(), $countryRequest->getCountry()->getId());
+
+            foreach ($countryRequest->getCountriesLocalizations() as $countriesLocalization) {
+                $this->managerRegistry->getRepository(CountriesLocalizations::class)
+                    ->updateCountryLocalization($countriesLocalization, $countryRequest->getCountry()->getId());
+            }
+
+            $response = ResponseStatus::SUCCESS;
+        } catch (\Throwable $t) {
+            $response = ResponseStatus::ERROR;
+        }
+
+        return $response;
+    }
 }

@@ -50,6 +50,7 @@ class Country
     {
         $country = new self();
         $country->setName(isset($data['Name']) ? $data['Name']: '');
+        $country->setId(isset($data['Id']) ? (int)$data['Id']: '');
 
         return $country;
     }

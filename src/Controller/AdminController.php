@@ -106,6 +106,10 @@ class AdminController extends AbstractController
         $countryFacade = new CountryFacade($this->getDoctrine());
         if ($command == CommandStatus::ADD_COUNTRY) {
             $response = $countryFacade->saveCountry($countryRequest);
+        } elseif ($command == CommandStatus::FIND_COUNTRY) {
+            $response = $countryFacade->findCountry($countryRequest->getCountry()->getId());
+        } elseif ($command == CommandStatus::UPDATE_COUNTRY) {
+            $response = $countryFacade->updateCountry($countryRequest);
         }
 
         return $response;

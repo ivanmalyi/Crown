@@ -74,7 +74,7 @@ function updateLocalization(id) {
     });
     var command = 'UpdateLocalization';
 
-    var isUpdate = confirm("Хотите добавить обновить язык?");
+    var isUpdate = confirm("Хотите редактировать язык?");
 
     if (isUpdate) {
         $.ajax({

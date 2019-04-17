@@ -74,4 +74,22 @@ class CountryRepository extends ServiceEntityRepository
 
         return $country;
     }
+
+    /**
+     * @param string $name
+     * @param int $id
+     * @return int
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    public function updateCountry(string $name, int $id): int
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = 'update country
+                set name = :name
+                where id = :id';
+
+        $stmt = $conn->prepare($sql);
+        return $stmt->execute(['name' => $name, 'id'=>$id]);
+    }
 }
