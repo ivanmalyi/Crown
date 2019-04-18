@@ -1,9 +1,9 @@
 <!-- Modal -->
-<div class="modal fade" id="countryChange" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="cityAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Изменить страну</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">Добавить страну</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -11,28 +11,26 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col">
-                        <div id="dropdownCountry">
+                        <div id="dropdownCountryAddForCity">
                             {% for country in countries %}
-                                <a id="{{ country.getId }}" onclick="findCountry(this.id)" class="dropdown-item" href="#">{{ country.getName }}</a>
+                                <a id="{{ country.getId }}" onclick="selectCountryForAddCity(this.id)"  class="dropdown-item" href="#">{{ country.getName }}</a>
                             {% endfor %}
                         </div>
                     </div>
                     <div class="col-9">
                         <form class="text-center m-5">
-                            <div class="form-group">
-                                <span class="form-control-lg"><a>Измените название страны*</a></span>
-                                <input id="change_country_name" class="form-control form-control-lg text-center" type="text" placeholder="Name" required>
-                                <input id="country_id" style="display: none">
+                            <div class="form-group" >
+                                <span class="form-control-lg"><a>Введите название города*</a></span>
+                                <input id="add_city_name" class="form-control form-control-lg text-center" type="text" placeholder="Name" required>
                             </div>
                             <div class="form-group" >
-                                <span class="input-group-text form-control-lg"><a>Измените титульное название страны</a></span>
+                                <span class="input-group-text form-control-lg"><a>Введите титульное название города</a></span>
                             </div>
-                            <div id="change_country_title_name">
+                            <div id="add_city_title_name">
                                 {% for localization in localizations %}
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-xs-6 col-sm-3">
-                                                <!--параметр name заполняется в функции findCountry-->
                                                 <span class="input-group-text form-control-lg"><a>{{ localization.getTag }}</a></span>
                                             </div>
                                             <div class="col-xs-6 col-sm-9">
@@ -49,7 +47,7 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                <button type="button" class="btn btn-primary" onclick="updateCountry()">Изменить</button>
+                <button type="button" class="btn btn-primary" onclick="addCity()">Добавить</button>
             </div>
         </div>
     </div>

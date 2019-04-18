@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 
+use App\Entity\CityRequest;
 use App\Entity\CountryRequest;
 use App\Entity\Localization;
 use App\Entity\Statuses\CommandStatus;
@@ -16,6 +17,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Class AdminController
+ * @package App\Controller
+ */
 class AdminController extends AbstractController
 {
     /**
@@ -69,6 +74,11 @@ class AdminController extends AbstractController
         return new Response($response);
     }
 
+    /**
+     * @param Localization $localization
+     * @param string $command
+     * @return int|string
+     */
     private function selectLocalizationAction(Localization $localization, string $command)
     {
         $localizationFacade = new LocalizationFacade($this->getDoctrine());
@@ -101,6 +111,11 @@ class AdminController extends AbstractController
         return new Response($response);
     }
 
+    /**
+     * @param CountryRequest $countryRequest
+     * @param string $command
+     * @return int|string
+     */
     private function selectCountryAction(CountryRequest $countryRequest, string $command)
     {
         $countryFacade = new CountryFacade($this->getDoctrine());
@@ -115,5 +130,35 @@ class AdminController extends AbstractController
         return $response;
     }
 
+    /**
+     * @Route("/CityAction")
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function actionCity(Request $request)
+    {
+        $rows = json_decode($request->query->get('data'), true);
+        $command = $request->query->get('command');
 
+        $cityLocalization = [];
+        foreach ($rows as $row) {
+            $cityLocalization[] = CityRequest::validation($row);
+        }
+
+        $response = $this->selectCityAction($cityLocalization, $command);
+
+        return new Response($response);
+    }
+
+    /**
+     * @param array $cityLocalization
+     * @param string $command
+     */
+    private function selectCityAction(array $cityLocalization, string $command)
+    {
+        if ($command == CommandStatus::ADD_CITY) {
+
+        }
+    }
 }
