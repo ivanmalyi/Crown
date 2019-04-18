@@ -108,14 +108,13 @@ class LocalizationRepository extends ServiceEntityRepository
         $conn = $this->getEntityManager()->getConnection();
 
         $sql = 'update localization
-                set name = :name, tag = :tag
+                set name = :name
                 where id = :id';
         $stmt = $conn->prepare($sql);
 
         return $stmt->execute([
             'id'=>$localization->getId(),
-            'name'=>$localization->getName(),
-            'tag'=>$localization->getTag()
+            'name'=>$localization->getName()
         ]);
     }
 

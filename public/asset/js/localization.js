@@ -69,8 +69,7 @@ function updateLocalization(id) {
 
     var data = JSON.stringify({
         Id: id,
-        Name: name,
-        Tag: tag
+        Name: name
     });
     var command = 'UpdateLocalization';
 
