@@ -76,8 +76,8 @@ class CountriesLocalizationsRepository extends ServiceEntityRepository
         $conn = $this->getEntityManager()->getConnection();
 
         $sql = 'update countries_localizations
-                set title_name = :titleName
-                where country_id = :countryId and tag = :tag';
+                set title_name = :titleName, tag = :tag
+                where country_id = :countryId and id = :id';
 
         $stmt = $conn->prepare($sql);
         return $stmt->execute(
@@ -85,6 +85,7 @@ class CountriesLocalizationsRepository extends ServiceEntityRepository
                 'titleName' => $countriesLocalizations->getTitleName(),
                 'countryId'=> $countryId,
                 'tag'=>$countriesLocalizations->getTag(),
+                'id'=>$countriesLocalizations->getId()
             ]
         );
     }

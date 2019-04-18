@@ -65,6 +65,7 @@ function findCountry(id) {
                 for (i in tags) {
                     if (tags[i].text === response[index].Tag)  {
                         titleNames[i].value = response[index].TitleName;
+                        tags[i].name = response[index].Id;
                     }
                 }
             }
@@ -88,6 +89,7 @@ function updateCountry() {
             for (index in tags) {
                 if (tags[index].text !== undefined) {
                     countryLocalizations.push({
+                        Id:tags[index].name,
                        TitleName: titleNames[index].value,
                         Tag:tags[index].text
                     });
