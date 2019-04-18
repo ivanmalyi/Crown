@@ -10,6 +10,7 @@ use App\Entity\CountryRequest;
 use App\Entity\Localization;
 use App\Entity\Statuses\CommandStatus;
 use App\Facade\AdminFacade;
+use App\Facade\CityFacade;
 use App\Facade\CountryFacade;
 use App\Facade\LocalizationFacade;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -141,24 +142,27 @@ class AdminController extends AbstractController
         $rows = json_decode($request->query->get('data'), true);
         $command = $request->query->get('command');
 
-        $cityLocalization = [];
+        $cityRequest = [];
         foreach ($rows as $row) {
-            $cityLocalization[] = CityRequest::validation($row);
+            $cityRequest[] = CityRequest::validation($row);
         }
 
-        $response = $this->selectCityAction($cityLocalization, $command);
+        $response = $this->selectCityAction($cityRequest, $command);
 
         return new Response($response);
     }
 
     /**
-     * @param array $cityLocalization
+     * @param array $cityRequest
      * @param string $command
      */
-    private function selectCityAction(array $cityLocalization, string $command)
+    private function selectCityAction(array $cityRequest, string $command)
     {
+        $cityFacade = new CityFacade($this->getDoctrine());
         if ($command == CommandStatus::ADD_CITY) {
-
+            $response = $cityFacade->saveCity($cityRequest);
         }
+
+        return $response;
     }
 }
