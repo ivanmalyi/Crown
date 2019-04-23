@@ -15,18 +15,25 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class CityRepository extends ServiceEntityRepository
 {
+    /**
+     * CityRepository constructor.
+     * @param RegistryInterface $registry
+     */
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, City::class);
     }
 
+    /**
+     * @param CityRequest $cityRequest
+     * @return int
+     * @throws \Doctrine\DBAL\DBALException
+     */
     public function saveCity(CityRequest $cityRequest): int
     {
-
         $conn = $this->getEntityManager()->getConnection();
 
         $sql = 'insert into city (name, country_id) value (:name, :countryId)';
-
         $stmt = $conn->prepare($sql);
         $stmt->execute(['name'=>$cityRequest->getCityName(), 'countryId'=>$cityRequest->getCountryId()]);
 
