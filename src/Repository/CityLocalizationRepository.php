@@ -48,4 +48,48 @@ class CityLocalizationRepository extends ServiceEntityRepository
            ]
        );
     }
+
+    /**
+     * @param CityRequest $cityRequest
+     * @return mixed[]
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    public function findCityLocalization(CityRequest $cityRequest)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = 'select c.name, cl.id, cl.city_id, cl.title_name, cl.tag 
+                from city_localization as cl
+                left join city as c on c.id = cl.city_id
+                where cl.city_id = :id';
+
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(['id'=>$cityRequest->getCityId()]);
+
+        return $stmt->fetchAll();
+    }
+
+    /**
+     * @param CityRequest $cityRequest
+     * @return int
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    public function updateCityLocalizations(CityRequest $cityRequest): int
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = 'update city_localization
+                set title_name = :titleName, tag = :tag
+                where city_id = :cityId and id = :id';
+
+        $stmt = $conn->prepare($sql);
+        return $stmt->execute(
+            [
+                'titleName' => $cityRequest->getCityTitleName(),
+                'cityId'=> $cityRequest->getCityId(),
+                'tag'=>$cityRequest->getTag(),
+                'id'=>$cityRequest->getCityTitleNameId()
+            ]
+        );
+    }
 }

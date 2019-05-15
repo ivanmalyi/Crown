@@ -161,6 +161,12 @@ class AdminController extends AbstractController
         $cityFacade = new CityFacade($this->getDoctrine());
         if ($command == CommandStatus::ADD_CITY) {
             $response = $cityFacade->saveCity($cityRequest);
+        } elseif ($command == CommandStatus::FIND_CITIES_FOR_COUNTRY){
+            $response = $cityFacade->findCitiesForCountry($cityRequest);
+        } elseif ($command == CommandStatus::FIND_CITY) {
+            $response = $cityFacade->findCity($cityRequest);
+        } elseif ($command == CommandStatus::UPDATE_CITY) {
+            $response = $cityFacade->updateCity($cityRequest);
         }
 
         return $response;

@@ -14,4 +14,7 @@ class CommandStatus
     const FIND_COUNTRY = 'FindCountry';
     const UPDATE_COUNTRY = 'UpdateCountry';
     const ADD_CITY = 'AddCity';
+    const FIND_CITIES_FOR_COUNTRY = 'FindCitiesForCountry';
+    const FIND_CITY = 'FindCity';
+    const UPDATE_CITY = 'UpdateCity';
 }

@@ -19,22 +19,19 @@
                     </div>
                     <div class="col">
                         <div id="dropdownCity">
-                            {% for country in countries %}
-                                <a id="{{ country.getId }}" onclick="findCity(this.id)" class="dropdown-item" href="#">{{ country.getName }}</a>
-                            {% endfor %}
                         </div>
                     </div>
                     <div class="col-8">
                         <form class="text-center m-5">
                             <div class="form-group">
                                 <span class="form-control-lg"><a>Измените название города*</a></span>
-                                <input id="change_country_name" class="form-control form-control-lg text-center" type="text" placeholder="Name" required>
-                                <input id="country_id" style="display: none">
+                                <input id="change_city_name" class="form-control form-control-lg text-center" type="text" placeholder="Name" required>
+                                <input id="city_id" style="display: none">
                             </div>
                             <div class="form-group" >
                                 <span class="input-group-text form-control-lg"><a>Измените титульное название города</a></span>
                             </div>
-                            <div id="change_country_title_name">
+                            <div id="change_city_title_name">
                                 {% for localization in localizations %}
                                     <div class="form-group">
                                         <div class="row">
@@ -56,7 +53,7 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                <button type="button" class="btn btn-primary" onclick="updateCountry()">Изменить</button>
+                <button type="button" class="btn btn-primary" onclick="updateCity()">Изменить</button>
             </div>
         </div>
     </div>

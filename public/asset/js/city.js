@@ -48,35 +48,105 @@ function addCity() {
 }
 
 function findCitiesForCountry(id) {
+    $('#dropdownCity').empty();
     $("#dropdownCountryForCity .active").removeClass("active");
-    $("#dropdownCity .active").removeClass("active");
     $("#dropdownCountryForCity #" + id).addClass("active");
 
-    var data = JSON.stringify({Id: id});
+    var data = [];
+    data.push({CountryId: id});
+    data = JSON.stringify(data);
+    var command = 'FindCitiesForCountry';
+
+    $.ajax({
+        type: "GET",
+        url: '/CityAction',
+        data: '?command=' + encodeURIComponent(command) + '&data=' + encodeURIComponent(data),
+        success: function (response) {
+            response = jQuery.parseJSON(response);
+            var htmlCities = '';
+            for (index in response) {
+                htmlCities += '<a id="'+response[index].Id+'" onclick="findCity(this.id)" class="dropdown-item" href="#">'+response[index].Name+'</a>'
+            }
+            $(htmlCities).appendTo('#dropdownCity');
+        }
+    });
+}
+
+function findCity(id) {
+    $("#dropdownCity .active").removeClass("active");
+    $("#dropdownCity #" + id).addClass("active");
+
+    var data = [];
+    data.push({CityId: id});
+    data = JSON.stringify(data);
     var command = 'FindCity';
 
     $.ajax({
         type: "GET",
-        url: '/CountryAction',
+        url: '/CityAction',
         data: '?command=' + encodeURIComponent(command) + '&data=' + encodeURIComponent(data),
         success: function (response) {
             response = jQuery.parseJSON(response);
 
-            var elem = document.getElementById('change_country_title_name');
+            var elem = document.getElementById('change_city_title_name');
             var titleNames = elem.getElementsByTagName('input');
             var tags = elem.getElementsByTagName('a');
-            $("#change_country_name").val(response[0].Name);
-            $("#country_id").val(response[0].Id);
+            $("#change_city_name").val(response[0].Name);
+            $("#city_id").val(response[0].CityId);
 
             for (index in response) {
                 for (i in tags) {
-                    if (tags[i].text === response[index].Tag)  {
+                    if (tags[i].text === response[index].Tag) {
                         titleNames[i].value = response[index].TitleName;
-                        tags[i].name = response[index].Id;
+                        tags[i].name = response[index].LocalizationId;
                     }
                 }
             }
-
         }
     });
+}
+
+function updateCity() {
+
+    var elem = document.getElementById('change_city_title_name');
+    var titleNames = elem.getElementsByTagName('input');
+    var tags = elem.getElementsByTagName('a');
+    var name = $("#change_city_name").val();
+    var id = $("#city_id").val();
+
+    if (name !== '') {
+        var isUpdate = confirm("Хотите редактировать город?");
+        if (isUpdate) {
+            var cityLocalizations = [];
+            for (index in tags) {
+                if (tags[index].text !== undefined) {
+                    cityLocalizations.push({
+                        CityId:id,
+                        CityName:name,
+                        CityTitleNameId:tags[index].name,
+                        CityTitleName: titleNames[index].value,
+                        Tag:tags[index].text
+                    });
+                }
+            }
+
+            var data = JSON.stringify(cityLocalizations);
+            var command = 'UpdateCity';
+
+            $.ajax({
+                type: "GET",
+                url: '/CityAction',
+                data: '?command=' + encodeURIComponent(command) + '&data=' + encodeURIComponent(data),
+                success: function (response) {
+                    if (parseInt(response) === 1) {
+                        alert('Обновлено');
+                    } else {
+                        alert('Не удалось обновить');
+                    }
+                }
+            });
+        }
+    } else {
+        alert('Заполните название города');
+    }
 }

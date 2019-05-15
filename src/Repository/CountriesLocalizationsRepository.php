@@ -71,6 +71,12 @@ class CountriesLocalizationsRepository extends ServiceEntityRepository
         return $stmt->fetchAll();
     }
 
+    /**
+     * @param CountriesLocalizations $countriesLocalizations
+     * @param int $countryId
+     * @return int
+     * @throws \Doctrine\DBAL\DBALException
+     */
     public function updateCountryLocalization(CountriesLocalizations $countriesLocalizations, int $countryId): int
     {
         $conn = $this->getEntityManager()->getConnection();
