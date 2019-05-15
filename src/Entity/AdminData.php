@@ -21,6 +21,11 @@ class AdminData
     private $countries;
 
     /**
+     * @var Color[]
+     */
+    private $colors;
+
+    /**
      * @return Localization[]
      */
     public function getLocalizations(): array
@@ -50,5 +55,21 @@ class AdminData
     public function setCountries(array $countries): void
     {
         $this->countries = $countries;
+    }
+
+    /**
+     * @return Color[]
+     */
+    public function getColors(): array
+    {
+        return $this->colors;
+    }
+
+    /**
+     * @param Color[] $colors
+     */
+    public function setColors(array $colors): void
+    {
+        $this->colors = $colors;
     }
 }

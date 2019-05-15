@@ -6,11 +6,13 @@ namespace App\Controller;
 
 
 use App\Entity\CityRequest;
+use App\Entity\ColorRequest;
 use App\Entity\CountryRequest;
 use App\Entity\Localization;
 use App\Entity\Statuses\CommandStatus;
 use App\Facade\AdminFacade;
 use App\Facade\CityFacade;
+use App\Facade\ColorFacade;
 use App\Facade\CountryFacade;
 use App\Facade\LocalizationFacade;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -155,6 +157,7 @@ class AdminController extends AbstractController
     /**
      * @param array $cityRequest
      * @param string $command
+     * @return int|string
      */
     private function selectCityAction(array $cityRequest, string $command)
     {
@@ -167,6 +170,46 @@ class AdminController extends AbstractController
             $response = $cityFacade->findCity($cityRequest);
         } elseif ($command == CommandStatus::UPDATE_CITY) {
             $response = $cityFacade->updateCity($cityRequest);
+        }
+
+        return $response;
+    }
+
+    /**
+     * @Route("/ColorAction")
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function actionColor(Request $request)
+    {
+        $rows = json_decode($request->query->get('data'), true);
+        $command = $request->query->get('command');
+
+        $colorRequest = [];
+        foreach ($rows as $row) {
+            $colorRequest[] = ColorRequest::validation($row);
+        }
+
+        $response = $this->selectColorAction($colorRequest, $command);
+
+        return new Response($response);
+    }
+
+    /**
+     * @param array $colorRequest
+     * @param string $command
+     * @return int|string
+     */
+    private function selectColorAction(array $colorRequest, string $command)
+    {
+        $colorFacade = new ColorFacade($this->getDoctrine());
+        if ($command == CommandStatus::ADD_COLOR) {
+            $response = $colorFacade->saveColor($colorRequest);
+        } elseif ($command == CommandStatus::FIND_COLOR) {
+            $response = $colorFacade->findColor($colorRequest);
+        } elseif ($command == CommandStatus::UPDATE_COLOR) {
+            $response = $colorFacade->updateColor($colorRequest);
         }
 
         return $response;

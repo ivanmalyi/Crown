@@ -17,4 +17,7 @@ class CommandStatus
     const FIND_CITIES_FOR_COUNTRY = 'FindCitiesForCountry';
     const FIND_CITY = 'FindCity';
     const UPDATE_CITY = 'UpdateCity';
+    const ADD_COLOR = 'AddColor';
+    const FIND_COLOR = 'FindColor';
+    const UPDATE_COLOR = 'UpdateColor';
 }
