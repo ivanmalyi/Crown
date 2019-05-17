@@ -24,30 +24,27 @@ class CountriesLocalizationsRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param CountriesLocalizations[] $countryLocalizations
+     * @param CountriesLocalizations $countryLocalization
      * @param int $countryId
      * @return int
      * @throws \Doctrine\DBAL\DBALException
      */
-    public function addCountryLocalizations(array $countryLocalizations, int $countryId): int
+    public function addCountryLocalizations(CountriesLocalizations $countryLocalization, int $countryId): int
     {
         $conn = $this->getEntityManager()->getConnection();
 
-        $sql = /**@lang text*/
-            'insert into countries_localizations (country_id, localization_id, title_name, tag) values ';
+        $sql = 'insert into countries_localizations (country_id, localization_id, title_name, tag) 
+                value (:country_id, :localization_id, :title_name, :tag) ';
 
-        $placeholders = [];
-        foreach ($countryLocalizations as $key=>$countryLocalization) {
-            $sql .= "(:country_id{$key}, :localization_id{$key}, :title_name{$key}, :tag{$key}),";
-            $placeholders += [
-                "country_id{$key}"=>$countryLocalization->getCountryId(),
-                "localization_id{$key}"=>$countryLocalization->getLocalizationId(),
-                "title_name{$key}"=>$countryLocalization->getTitleName(),
-                "tag{$key}"=>$countryLocalization->getTag()
+            $placeholders = [
+                "country_id"=>$countryLocalization->getCountryId(),
+                "localization_id"=>$countryLocalization->getLocalizationId(),
+                "title_name"=>$countryLocalization->getTitleName(),
+                "tag"=>$countryLocalization->getTag()
             ];
-        }
 
-        $stmt = $conn->prepare(rtrim($sql, ','));
+
+        $stmt = $conn->prepare($sql);
         return $stmt->execute($placeholders);
     }
 
@@ -60,7 +57,7 @@ class CountriesLocalizationsRepository extends ServiceEntityRepository
     {
         $conn = $this->getEntityManager()->getConnection();
 
-        $sql = 'select c.id, c.name, cl.title_name, cl.tag 
+        $sql = 'select cl.country_id, c.name, cl.title_name, cl.tag , cl.id
                 from countries_localizations as cl
                 left join country as c on c.id = cl.country_id
                 where cl.country_id = :id';
@@ -91,7 +88,7 @@ class CountriesLocalizationsRepository extends ServiceEntityRepository
                 'titleName' => $countriesLocalizations->getTitleName(),
                 'countryId'=> $countryId,
                 'tag'=>$countriesLocalizations->getTag(),
-                'id'=>$countriesLocalizations->getId()
+                'id'=>$countriesLocalizations->getCountryLocalizationId()
             ]
         );
     }

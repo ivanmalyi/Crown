@@ -113,6 +113,7 @@ function updateCity() {
     var tags = elem.getElementsByTagName('a');
     var name = $("#change_city_name").val();
     var id = $("#city_id").val();
+    var country = $("#dropdownCountryAddForCity .active");
 
     if (name !== '') {
         var isUpdate = confirm("Хотите редактировать город?");
@@ -121,6 +122,7 @@ function updateCity() {
             for (index in tags) {
                 if (tags[index].text !== undefined) {
                     cityLocalizations.push({
+                        CountryId: country.attr('id'),
                         CityId:id,
                         CityName:name,
                         CityTitleNameId:tags[index].name,
@@ -140,6 +142,7 @@ function updateCity() {
                 success: function (response) {
                     if (parseInt(response) === 1) {
                         alert('Обновлено');
+                        location.reload(true);
                     } else {
                         alert('Не удалось обновить');
                     }

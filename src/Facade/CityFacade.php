@@ -68,6 +68,10 @@ class CityFacade extends AbstractFacade
         return $response;
     }
 
+    /**
+     * @param array $cityRequest
+     * @return string
+     */
     public function findCity(array $cityRequest): string
     {
         try {
@@ -90,13 +94,24 @@ class CityFacade extends AbstractFacade
         return $response;
     }
 
+    /**
+     * @param CityRequest[] $cityRequest
+     * @return int
+     */
     public function updateCity(array $cityRequest): int
     {
         try{
             $this->managerRegistry->getRepository(City::class)->updateCity($cityRequest[0]);
 
             foreach ($cityRequest as $city) {
-                $this->managerRegistry->getRepository(CityLocalization::class)->updateCityLocalizations($city);
+                if ($city->getCityTitleNameId() !== 0) {
+                    $this->managerRegistry->getRepository(CityLocalization::class)->updateCityLocalizations($city);
+                } else {
+                    $localization = $this->managerRegistry->getRepository(Localization::class)
+                        ->findLocalizationByTag($city->getTag());
+                    $this->managerRegistry->getRepository(CityLocalization::class)
+                        ->saveCityLocalization($city, $localization);
+                }
             }
             $response = ResponseStatus::SUCCESS;
         } catch (\Throwable $t) {

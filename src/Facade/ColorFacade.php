@@ -31,7 +31,7 @@ class ColorFacade extends AbstractFacade
                 $localization = $this->managerRegistry->getRepository(Localization::class)
                     ->findLocalizationByTag($colorLocale->getTag());
                 $this->managerRegistry->getRepository(ColorsLocalizations::class)
-                    ->saveCityLocalization($colorLocale, $localization);
+                    ->saveColorLocalization($colorLocale, $localization);
             }
 
             $response = ResponseStatus::SUCCESS;
@@ -71,12 +71,24 @@ class ColorFacade extends AbstractFacade
         return $response;
     }
 
+    /**
+     * @param ColorRequest[] $colorRequest
+     * @return int
+     */
     public function updateColor(array $colorRequest): int
     {
         try{
             $this->managerRegistry->getRepository(Color::class)->updateColor($colorRequest[0]);
             foreach ($colorRequest as $color) {
-                $this->managerRegistry->getRepository(ColorsLocalizations::class)->updateColorLocalizations($color);
+                if ($color->getColorLocalizationId() !== 0) {
+                    $this->managerRegistry->getRepository(ColorsLocalizations::class)->updateColorLocalizations($color);
+                } else {
+                    $localization = $this->managerRegistry->getRepository(Localization::class)
+                        ->findLocalizationByTag($color->getTag());
+                    $this->managerRegistry->getRepository(ColorsLocalizations::class)
+                        ->saveColorLocalization($color, $localization);
+                }
+
             }
             $response = ResponseStatus::SUCCESS;
         } catch (\Throwable $t) {

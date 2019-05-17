@@ -83,6 +83,7 @@ function updateLocalization(id) {
             success: function (response) {
                 if (parseInt(response) === 1) {
                     alert('Изменено');
+                    location.reload(true);
                 } else {
                     alert('Не удалось изменить');
                 }

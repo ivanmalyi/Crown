@@ -59,13 +59,13 @@ function findCountry(id) {
             var titleNames = elem.getElementsByTagName('input');
             var tags = elem.getElementsByTagName('a');
             $("#change_country_name").val(response[0].Name);
-            $("#country_id").val(response[0].Id);
+            $("#country_id").val(response[0].CountryId);
 
             for (index in response) {
                 for (i in tags) {
                     if (tags[i].text === response[index].Tag)  {
                         titleNames[i].value = response[index].TitleName;
-                        tags[i].name = response[index].Id;
+                        tags[i].name = response[index].CountryLocalizationId;
                     }
                 }
             }
@@ -89,7 +89,7 @@ function updateCountry() {
             for (index in tags) {
                 if (tags[index].text !== undefined) {
                     countryLocalizations.push({
-                        Id:tags[index].name,
+                        CountryLocalizationId:tags[index].name,
                        TitleName: titleNames[index].value,
                         Tag:tags[index].text
                     });
@@ -112,6 +112,8 @@ function updateCountry() {
                 success: function (response) {
                     if (parseInt(response) === 1) {
                         alert('Обновлено');
+                        location.reload(true);
+
                     } else {
                         alert('Не удалось обновить');
                     }

@@ -31,7 +31,7 @@ class ColorsLocalizationsRepository extends ServiceEntityRepository
      * @return int
      * @throws \Doctrine\DBAL\DBALException
      */
-    public function saveCityLocalization(ColorRequest $colorRequest, Localization $localization): int
+    public function saveColorLocalization(ColorRequest $colorRequest, Localization $localization): int
     {
         $conn = $this->getEntityManager()->getConnection();
 

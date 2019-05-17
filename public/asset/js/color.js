@@ -105,6 +105,7 @@ function updateColor() {
                 success: function (response) {
                     if (parseInt(response) === 1) {
                         alert('Обновлено');
+                        location.reload(true);
                     } else {
                         alert('Не удалось обновить');
                     }

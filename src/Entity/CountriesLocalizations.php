@@ -14,7 +14,7 @@ class CountriesLocalizations
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private $countryLocalizationId;
 
     /**
      * @ORM\Column(type="integer")
@@ -36,9 +36,17 @@ class CountriesLocalizations
      */
     private $tag;
 
-    public function getId(): ?int
+    public function getCountryLocalizationId(): ?int
     {
-        return $this->id;
+        return $this->countryLocalizationId;
+    }
+
+    /**
+     * @param mixed $countryLocalizationId
+     */
+    public function setCountryLocalizationId($countryLocalizationId): void
+    {
+        $this->countryLocalizationId = $countryLocalizationId;
     }
 
     public function getCountryId(): ?int
@@ -82,6 +90,7 @@ class CountriesLocalizations
         $countryLocalization = new self();
         $countryLocalization->setTitleName(isset($data['TitleName']) ? $data['TitleName']: '');
         $countryLocalization->setTag(isset($data['Tag']) ? $data['Tag']: '');
+        $countryLocalization->setCountryLocalizationId(isset($data['CountryLocalizationId']) ? (int)$data['CountryLocalizationId']: 0);
 
         return $countryLocalization;
     }

@@ -24,10 +24,9 @@ class CountryFacade extends AbstractFacade
                 /**@var Localization $localization*/
                 $countriesLocalization->setLocalizationId($localization->getId());
                 $countriesLocalization->setCountryId($countryId);
+                $this->managerRegistry->getRepository(CountriesLocalizations::class)
+                    ->addCountryLocalizations($countriesLocalization, $countryId);
             }
-
-            $this->managerRegistry->getRepository(CountriesLocalizations::class)
-                ->addCountryLocalizations($countryRequest->getCountriesLocalizations(), $countryId);
 
             $response = ResponseStatus::SUCCESS;
         } catch (\Throwable $t) {
@@ -46,7 +45,8 @@ class CountryFacade extends AbstractFacade
             $response = [];
             foreach ($params as $param) {
                 $response[] = [
-                    "Id"=>$param["id"],
+                    "CountryId"=>$param["country_id"],
+                    "CountryLocalizationId"=>$param["id"],
                     "Name"=>$param["name"],
                     "TitleName"=>$param["title_name"],
                     "Tag"=>$param["tag"],
@@ -68,8 +68,19 @@ class CountryFacade extends AbstractFacade
                 -> updateCountry($countryRequest->getCountry()->getName(), $countryRequest->getCountry()->getId());
 
             foreach ($countryRequest->getCountriesLocalizations() as $countriesLocalization) {
-                $this->managerRegistry->getRepository(CountriesLocalizations::class)
-                    ->updateCountryLocalization($countriesLocalization, $countryRequest->getCountry()->getId());
+                $countriesLocalization->setCountryId($countryRequest->getCountry()->getId());
+                if ($countriesLocalization->getCountryLocalizationId() !== 0) {
+                    $this->managerRegistry->getRepository(CountriesLocalizations::class)
+                        ->updateCountryLocalization($countriesLocalization, $countryRequest->getCountry()->getId());
+                } else {
+
+                    $localization = $this->managerRegistry->getRepository(Localization::class)
+                        ->findLocalizationByTag($countriesLocalization->getTag());
+                    /**@var Localization $localization*/
+                    $countriesLocalization->setLocalizationId($localization->getId());
+                    $this->managerRegistry->getRepository(CountriesLocalizations::class)
+                        ->addCountryLocalizations($countriesLocalization, $countryRequest->getCountry()->getId());
+                }
             }
 
             $response = ResponseStatus::SUCCESS;
