@@ -9,12 +9,14 @@ use App\Entity\CityRequest;
 use App\Entity\ColorRequest;
 use App\Entity\CountryRequest;
 use App\Entity\Localization;
+use App\Entity\ProductRequest;
 use App\Entity\Statuses\CommandStatus;
 use App\Facade\AdminFacade;
 use App\Facade\CityFacade;
 use App\Facade\ColorFacade;
 use App\Facade\CountryFacade;
 use App\Facade\LocalizationFacade;
+use App\Facade\ProductFacade;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -210,6 +212,42 @@ class AdminController extends AbstractController
             $response = $colorFacade->findColor($colorRequest);
         } elseif ($command == CommandStatus::UPDATE_COLOR) {
             $response = $colorFacade->updateColor($colorRequest);
+        }
+
+        return $response;
+    }
+
+    /**
+     * @Route("/ProductAction")
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function actionProduct(Request $request)
+    {
+        $rows = json_decode($request->query->get('data'), true);
+        $command = $request->query->get('command');
+
+        $productRequest = [];
+        foreach ($rows as $row) {
+            $productRequest[] = ProductRequest::validation($row);
+        }
+
+        $response = $this->selectProductAction($productRequest, $command);
+
+        return new Response($response);
+    }
+
+    /**
+     * @param array $productRequest
+     * @param string $command
+     * @return int
+     */
+    private function selectProductAction(array $productRequest, string $command)
+    {
+        $productFacade = new ProductFacade($this->getDoctrine());
+        if ($command == CommandStatus::ADD_PRODUCT) {
+            $response = $productFacade ->saveProduct($productRequest);
         }
 
         return $response;

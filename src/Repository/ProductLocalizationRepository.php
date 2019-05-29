@@ -2,7 +2,9 @@
 
 namespace App\Repository;
 
+use App\Entity\Localization;
 use App\Entity\ProductLocalization;
+use App\Entity\ProductRequest;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -14,37 +16,38 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class ProductLocalizationRepository extends ServiceEntityRepository
 {
+    /**
+     * ProductLocalizationRepository constructor.
+     * @param RegistryInterface $registry
+     */
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, ProductLocalization::class);
     }
 
-    // /**
-    //  * @return ProductLocalization[] Returns an array of ProductLocalization objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @param ProductRequest $productRequest
+     * @param Localization $localization
+     * @return bool
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    public function saveProductLocalization(ProductRequest $productRequest, Localization $localization)
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $conn = $this->getEntityManager()->getConnection();
 
-    /*
-    public function findOneBySomeField($value): ?ProductLocalization
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $sql = 'insert into product_localization (product_id, tag, localization_id, title_name, description)
+                value (:product_id, :tag, :localization_id, :title_name, :description)';
+
+        $stmt = $conn->prepare($sql);
+
+        return $stmt->execute(
+            [
+                'product_id' => $productRequest->getProductId(),
+                'tag' => $localization->getTag(),
+                'localization_id' => $localization->getId(),
+                'title_name' => $productRequest->getProductTitleName(),
+                'description' => $productRequest->getDescription(),
+            ]
+        );
     }
-    */
 }

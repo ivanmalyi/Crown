@@ -39,7 +39,7 @@ class Product
     /**
      * @ORM\Column(type="integer")
      */
-    private $date;
+    private $year;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -64,6 +64,14 @@ class Product
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id): void
+    {
+        $this->id = $id;
     }
 
     public function getName(): ?string
@@ -114,14 +122,14 @@ class Product
         return $this;
     }
 
-    public function getDate(): ?int
+    public function getYear(): ?int
     {
-        return $this->date;
+        return $this->year;
     }
 
-    public function setDate(int $date): self
+    public function setYear(int $year): self
     {
-        $this->date = $date;
+        $this->year = $year;
 
         return $this;
     }

@@ -20,4 +20,5 @@ class CommandStatus
     const ADD_COLOR = 'AddColor';
     const FIND_COLOR = 'FindColor';
     const UPDATE_COLOR = 'UpdateColor';
+    const ADD_PRODUCT = 'AddProduct';
 }

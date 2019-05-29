@@ -8,6 +8,10 @@ namespace App\Entity;
  * Class AdminData
  * @package App\Entity
  */
+/**
+ * Class AdminData
+ * @package App\Entity
+ */
 class AdminData
 {
     /**
@@ -24,6 +28,11 @@ class AdminData
      * @var Color[]
      */
     private $colors;
+
+    /**
+     * @var Product[]
+     */
+    private $products;
 
     /**
      * @return Localization[]
@@ -71,5 +80,21 @@ class AdminData
     public function setColors(array $colors): void
     {
         $this->colors = $colors;
+    }
+
+    /**
+     * @return Product[]
+     */
+    public function getProducts(): array
+    {
+        return $this->products;
+    }
+
+    /**
+     * @param Product[] $products
+     */
+    public function setProducts(array $products): void
+    {
+        $this->products = $products;
     }
 }

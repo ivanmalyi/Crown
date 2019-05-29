@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Product;
+use App\Entity\ProductRequest;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -14,37 +15,77 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class ProductRepository extends ServiceEntityRepository
 {
+    /**
+     * ProductRepository constructor.
+     * @param RegistryInterface $registry
+     */
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Product::class);
     }
 
-    // /**
-    //  * @return Product[] Returns an array of Product objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @param ProductRequest $productRequest
+     * @return int
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    public function saveProduct(ProductRequest $productRequest): int
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $conn = $this->getEntityManager()->getConnection();
 
-    /*
-    public function findOneBySomeField($value): ?Product
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $sql = 'insert into product (name, status, vip, height, year, avatar, color_id, country_id, city_id)
+                value (:name, :status, :vip, :height, :year, :avatar, :color_id, :country_id, :city_id)';
+
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(
+            [
+                'name' => $productRequest->getProductName(),
+                'status' => $productRequest->getStatus(),
+                'vip' => $productRequest->getVip(),
+                'height' => $productRequest->getHeight(),
+                'year' => $productRequest->getYear(),
+                'avatar' => $productRequest->getAvatar(),
+                'color_id' => $productRequest->getColorId(),
+                'country_id' => $productRequest->getCountryId(),
+                'city_id' => $productRequest->getCityId(),
+            ]
+        );
+
+        return (int)$conn->lastInsertId();
     }
-    */
+
+    /**
+     * @return array
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    public function findAllProducts()
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = 'select id, name from product';
+
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([]);
+        $rows =$stmt->fetchAll();
+
+        $products = [];
+        foreach ($rows as $row) {
+            $products[] = $this->inflate($row);
+        }
+
+        return $products;
+    }
+
+    /**
+     * @param array $row
+     * @return Product
+     */
+    private function inflate(array $row): Product
+    {
+        $product = new Product();
+        $product->setId($row['id']);
+        $product->setName($row['name']);
+
+        return $product;
+    }
 }
