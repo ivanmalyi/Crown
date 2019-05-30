@@ -1,17 +1,3 @@
-function send() {
-    var login = $("#login").val();
-    var password = $("#password").val();
-
-    $.ajax({
-        type: "GET",
-        url: '/AdminPanel',
-        data: '?login='+encodeURIComponent(login)+'&password='+encodeURIComponent(password),
-        success: function (response) {
-            document.write(response);
-        }
-    });
-}
-
 function addLocalization() {
     var name = $("#add_localization_name").val();
     var tag = $("#add_localization_tag").val();

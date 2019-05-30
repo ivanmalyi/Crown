@@ -20,6 +20,7 @@ use App\Facade\ProductFacade;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -29,15 +30,42 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminController extends AbstractController
 {
     /**
+     * @var SessionInterface
+     */
+    private $session;
+
+    /**
+     * AdminController constructor.
+     * @param SessionInterface $session
+     */
+    public function __construct(SessionInterface $session)
+    {
+        $this->session = $session;
+    }
+    /**
      * @Route("/AdminPanel/auth")
      */
     public function index()
     {
-        return $this->render('AdminPanel/Auth.html.twig');
+
+        $login = $this->session->get('login');
+        $password = $this->session->get('password');
+
+        if ($login == 'SMBAdmin' and $password == '!QAZ2wsx#EDC') {
+            $adminFacade = new AdminFacade($this->getDoctrine());
+            $adminData = $adminFacade->findMainData();
+
+            return $this->render('AdminPanel/AdminPanel.html.twig', ['adminData'=>$adminData]);
+        } else {
+            return $this->render('AdminPanel/Auth.html.twig');
+        }
     }
 
     /**
-     * @Route("/AdminPanel")
+     * @Route("/A/B/AdminPanel")
+     *
+     * @param Request $request
+     * @return Response
      */
     public function adminPanel(Request $request)
     {
@@ -45,21 +73,17 @@ class AdminController extends AbstractController
         $password = $request->query->get('password');
 
         if ($login == 'SMBAdmin' and $password == '!QAZ2wsx#EDC') {
-            return $this->render('AdminPanel/AdminPanel.html.twig',
-                [
-                    'login' =>'SMBAdmin',
-                    'inputLogin'=>$login,
-                    'password'=>'!QAZ2wsx#EDC',
-                    'inputPassword'=>$password
-                ]
-            );
+            $this->session->set('login', $login);
+            $this->session->set('password', $password);
+
+            $adminFacade = new AdminFacade($this->getDoctrine());
+            $adminData = $adminFacade->findMainData();
+
+            return $this->render('AdminPanel/AdminPanel.html.twig', ['adminData'=>$adminData]);
         }
-        $adminFacade = new AdminFacade($this->getDoctrine());
-        $adminData = $adminFacade->findMainData();
 
 
-       // return $this->render('AdminPanel/Auth.html.twig');
-        return $this->render('AdminPanel/AdminPanel.html.twig', ['adminData'=>$adminData]);
+        return $this->render('AdminPanel/Auth.html.twig');
     }
 
     /**
@@ -70,6 +94,13 @@ class AdminController extends AbstractController
      */
     public function actionLocalization(Request $request)
     {
+        $login = $this->session->get('login');
+        $password = $this->session->get('password');
+
+        if ($login != 'SMBAdmin' or $password != '!QAZ2wsx#EDC') {
+            return $this->render('PageNotFound.html.twig');
+        }
+
         $data = $request->query->get('data');
         $command = $request->query->get('command');
 
@@ -107,6 +138,13 @@ class AdminController extends AbstractController
      */
     public function actionCountry(Request $request)
     {
+        $login = $this->session->get('login');
+        $password = $this->session->get('password');
+
+        if ($login != 'SMBAdmin' or $password != '!QAZ2wsx#EDC') {
+            return $this->render('PageNotFound.html.twig');
+        }
+
         $data = json_decode($request->query->get('data'), true);
         $command = $request->query->get('command');
 
@@ -143,6 +181,13 @@ class AdminController extends AbstractController
      */
     public function actionCity(Request $request)
     {
+        $login = $this->session->get('login');
+        $password = $this->session->get('password');
+
+        if ($login != 'SMBAdmin' or $password != '!QAZ2wsx#EDC') {
+            return $this->render('PageNotFound.html.twig');
+        }
+
         $rows = json_decode($request->query->get('data'), true);
         $command = $request->query->get('command');
 
@@ -185,6 +230,13 @@ class AdminController extends AbstractController
      */
     public function actionColor(Request $request)
     {
+        $login = $this->session->get('login');
+        $password = $this->session->get('password');
+
+        if ($login != 'SMBAdmin' or $password != '!QAZ2wsx#EDC') {
+            return $this->render('PageNotFound.html.twig');
+        }
+
         $rows = json_decode($request->query->get('data'), true);
         $command = $request->query->get('command');
 
@@ -225,6 +277,13 @@ class AdminController extends AbstractController
      */
     public function actionProduct(Request $request)
     {
+        $login = $this->session->get('login');
+        $password = $this->session->get('password');
+
+        if ($login != 'SMBAdmin' or $password != '!QAZ2wsx#EDC') {
+            return $this->render('PageNotFound.html.twig');
+        }
+
         $rows = json_decode($request->query->get('data'), true);
         $command = $request->query->get('command');
 
