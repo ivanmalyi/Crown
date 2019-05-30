@@ -5,3 +5,7 @@
 .show {
     display: block;
 }
+
+.main-window {
+    background: #f1f2f3;
+}

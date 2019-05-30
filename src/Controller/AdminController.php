@@ -248,6 +248,10 @@ class AdminController extends AbstractController
         $productFacade = new ProductFacade($this->getDoctrine());
         if ($command == CommandStatus::ADD_PRODUCT) {
             $response = $productFacade ->saveProduct($productRequest);
+        } elseif ($command == CommandStatus::FIND_PRODUCT) {
+            $response = $productFacade ->findProduct($productRequest);
+        } elseif ($command == CommandStatus::UPDATE_PRODUCT) {
+            $response = $productFacade ->updateProduct($productRequest);
         }
 
         return $response;

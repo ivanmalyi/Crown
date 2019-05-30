@@ -88,4 +88,37 @@ class ProductRepository extends ServiceEntityRepository
 
         return $product;
     }
+
+    /**
+     * @param ProductRequest $productRequest
+     * @return int
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    public function updateProduct(ProductRequest $productRequest): int
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = 'update product
+                set name=:name, status=:status, vip=:vip, height=:height, year=:year, avatar=:avatar, color_id=:color_id, 
+                  country_id=:country_id, city_id=:city_id
+                where id = :id';
+
+        $stmt = $conn->prepare($sql);
+
+        return $stmt->execute(
+            [
+                'name'=>$productRequest->getProductName(),
+                'status'=>$productRequest->getStatus(),
+                'vip'=>$productRequest->getVip(),
+                'height'=>$productRequest->getHeight(),
+                'year'=>$productRequest->getYear(),
+                'avatar'=>$productRequest->getAvatar(),
+                'color_id'=>$productRequest->getColorId(),
+                'country_id'=>$productRequest->getCountryId(),
+                'city_id'=>$productRequest->getCityId(),
+                'id'=>$productRequest->getProductId()
+            ]
+        );
+    }
+
 }

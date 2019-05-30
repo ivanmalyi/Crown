@@ -50,4 +50,51 @@ class ProductLocalizationRepository extends ServiceEntityRepository
             ]
         );
     }
+
+    /**
+     * @param ProductRequest $productRequest
+     * @return mixed[]
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    public function findProduct(ProductRequest $productRequest)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = 'select p.id as product_id, p.name, p.status, p.vip, p.height, p.year, p.avatar, p.color_id, p.country_id, 
+                       p.city_id, pl.id as product_localization_id, pl.localization_id, pl.title_name, pl.description, pl.tag
+                from product_localization as pl
+                left join product as p on p.id = pl.product_id
+                where pl.product_id = :product_id';
+
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(['product_id'=>$productRequest->getProductId()]);
+
+        return $stmt->fetchAll();
+    }
+
+    /**
+     * @param ProductRequest $productRequest
+     * @return int
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    public function updateProductLocalizations(ProductRequest $productRequest): int
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = 'update product_localization
+                set product_id=:product_id, tag=:tag, title_name=:title_name, 
+                  description=:description
+                where product_id = :product_id and id = :id';
+
+        $stmt = $conn->prepare($sql);
+        return $stmt->execute(
+            [
+                'product_id'=>$productRequest->getProductId(),
+                'tag'=>$productRequest->getTag(),
+                'title_name'=>$productRequest->getProductTitleName(),
+                'description'=>$productRequest->getDescription(),
+                'id'=>$productRequest->getProductLocalizationId()
+            ]
+        );
+    }
 }

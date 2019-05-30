@@ -42,4 +42,70 @@ class ProductFacade extends AbstractFacade
 
         return $response;
     }
+
+    /**
+     * @param array $productRequest
+     * @return string
+     */
+    public function findProduct(array $productRequest): string
+    {
+        try {
+            $params = $this->managerRegistry->getRepository(ProductLocalization::class)
+                ->findProduct($productRequest[0]);
+
+            $response = [];
+            foreach ($params as $param) {
+                $response[] = [
+                    "ProductId"=>$param["product_id"],
+                    "ProductName"=>$param["name"],
+                    "Status"=>$param["status"],
+                    "VIP"=>$param["vip"],
+                    "Height"=>$param["height"],
+                    "Year"=>$param["year"],
+                    "Avatar"=>$param["avatar"],
+                    "ColorId"=>$param["color_id"],
+                    "CountryId"=>$param["country_id"],
+                    "CityId"=>$param["city_id"],
+                    "ProductLocalizationId"=>$param["product_localization_id"],
+                    "LocalizationId"=>$param["localization_id"],
+                    "ProductTitleName"=>$param["title_name"],
+                    "Description"=>$param["description"],
+                    "Tag"=>$param["tag"],
+                ];
+            }
+
+            $response = json_encode($response);
+        } catch (\Throwable $t) {
+            $response = json_encode([]);
+        }
+
+        return $response;
+    }
+
+    /**
+     * @param ProductRequest[] $productRequest
+     * @return int
+     */
+    public function updateProduct(array $productRequest): int
+    {
+        try{
+            $this->managerRegistry->getRepository(Product::class)->updateProduct($productRequest[0]);
+            foreach ($productRequest as $product) {
+                if ($product->getProductLocalizationId() !== 0) {
+                    $this->managerRegistry->getRepository(ProductLocalization::class)->updateProductLocalizations($product);
+                } else {
+                    $localization = $this->managerRegistry->getRepository(Localization::class)
+                        ->findLocalizationByTag($product->getTag());
+                    $this->managerRegistry->getRepository(ProductLocalization::class)
+                        ->saveProductLocalization($product, $localization);
+                }
+
+            }
+            $response = ResponseStatus::SUCCESS;
+        } catch (\Throwable $t) {
+            $response = ResponseStatus::ERROR;
+        }
+
+        return $response;
+    }
 }

@@ -346,6 +346,8 @@ class ProductRequest
         $productRequest->setProductTitleName(isset($data['ProductTitleName']) ? $data['ProductTitleName'] : '');
         $productRequest->setDescription(isset($data['Description']) ? $data['Description'] : '');
         $productRequest->setAvatar(isset($data['Avatar']) ? $data['Avatar'] : '');
+        $productRequest->setProductId(isset($data['ProductId']) ? (int)$data['ProductId'] : 0);
+        $productRequest->setProductLocalizationId(isset($data['ProductLocalizationId']) ? (int)$data['ProductLocalizationId'] : 0);
 
         return $productRequest;
     }
