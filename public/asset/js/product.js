@@ -104,6 +104,9 @@ function updateProduct() {
     var country = $("#dropdownCountryForProductChange .active").attr('id');
     var city = $("#dropdownCityForProductChange .active").attr('id');
 
+    var srcAvatar = $('#add-img .img-style-selected').attr('src').split('/');
+    var avatarName = srcAvatar[srcAvatar.length - 1];
+
     if (name !== '') {
         var isUpdate = confirm("Хотите редактировать продукт?");
         if (isUpdate) {
@@ -117,6 +120,7 @@ function updateProduct() {
                         VIP: vip,
                         Height: height,
                         Year: year,
+                        Avatar: avatarName,
                         ColorId: color,
                         CountryId: country,
                         CityId: city,
@@ -164,10 +168,18 @@ function findProduct() {
             response = jQuery.parseJSON(response);
 
             $("#change_product_name").val(response[0].ProductName);
-            $("#product_id").val(response[0].ProductId);
+            var productId = $("#product_id");
+            productId.val(response[0].ProductId);
+
             document.getElementById("status_change").checked = parseInt(response[0].Status);
             document.getElementById("vip_change").checked = parseInt(response[0].VIP);
             document.getElementById("select_color_change").value = parseInt(response[0].ColorId);
+
+            document.getElementById("upload-img").action = '/ImgUpload/' + response[0].ProductId;
+            var uploadImg = $("#upload-img");
+            uploadImg.removeClass("hide");
+            uploadImg.addClass("show");
+
             $("#change_height").val(response[0].Height);
             $("#change_year").val(response[0].Year);
 
@@ -190,8 +202,26 @@ function findProduct() {
                     }
                 }
             }
+
+            var htmlImg = '';
+            for (imgIndex in response[0].Images) {
+                var imgName = response[0].Images[imgIndex];
+
+                if (imgName === response[0].Avatar)  {
+                    htmlImg += '<img id="'+ imgIndex + '" onclick="selectAvatar(this.id)" ' +
+                        'class="rounded img-style-selected" src=/asset/img/products/'+ response[0].ProductId + '/' + imgName + '>';
+                    continue;
+                }
+
+                htmlImg += '<img id="'+ imgIndex + '" onclick="selectAvatar(this.id)" ' +
+                    'class="rounded img-style" src=/asset/img/products/'+ response[0].ProductId + '/' + imgName + '>';
+            }
+
+            $('#add-img').empty();
+            $(htmlImg).appendTo('#add-img');
         }
     });
+
 }
 
 function findCitiesForCountryInProduct(countryId, cityId) {
@@ -227,4 +257,3 @@ function selectCityForProduct(id) {
     $("#dropdownCityForProductChange .active").removeClass("active");
     $("#dropdownCityForProductChange #" + id).addClass("active");
 }
-

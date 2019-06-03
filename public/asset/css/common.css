@@ -9,3 +9,18 @@
 .main-window {
     background: #f1f2f3;
 }
+#img-action {
+    background: #71dd8a;
+}
+
+.img-style {
+    width: 10%;
+    height: 10%;
+    border: 5px solid #ececf6;
+}
+
+.img-style-selected {
+    width: 10%;
+    height: 10%;
+    border: 5px solid #005cbf;
+}

@@ -7,19 +7,20 @@
             <link href="{{ asset("asset/css/auth.css") }}" rel="stylesheet" />
             <link href="{{ asset("asset/css/common.css") }}" rel="stylesheet" />
         {% endblock %}
-        {% block javascripts %}
-            <script src="{{ asset("asset/js/jquery-3.3.1.js") }}"></script>
-            <script src="{{ asset("asset/js/popper.min.js") }}"></script>
-            <script src="{{ asset("asset/js/bootstrap.js") }}"></script>
-            <script src="{{ asset("asset/js/localization.js") }}"></script>
-            <script src="{{ asset("asset/js/country.js") }}"></script>
-            <script src="{{ asset("asset/js/city.js") }}"></script>
-            <script src="{{ asset("asset/js/color.js") }}"></script>
-            <script src="{{ asset("asset/js/product.js") }}"></script>
-            <script src="{{ asset("asset/js/auth.js") }}"></script>
-        {% endblock %}
     </head>
     <body>
         {% block body %}{% endblock %}
     </body>
+    {% block javascripts %}
+        <script src="{{ asset("asset/js/jquery-3.3.1.js") }}"></script>
+        <script src="{{ asset("asset/js/popper.min.js") }}"></script>
+        <script src="{{ asset("asset/js/bootstrap.js") }}"></script>
+        <script src="{{ asset("asset/js/localization.js") }}"></script>
+        <script src="{{ asset("asset/js/country.js") }}"></script>
+        <script src="{{ asset("asset/js/city.js") }}"></script>
+        <script src="{{ asset("asset/js/color.js") }}"></script>
+        <script src="{{ asset("asset/js/product.js") }}"></script>
+        <script src="{{ asset("asset/js/auth.js") }}"></script>
+        <script src="{{ asset("asset/js/img.js") }}"></script>
+    {% endblock %}
 </html>

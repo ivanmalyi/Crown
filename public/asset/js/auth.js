@@ -11,3 +11,14 @@ function send() {
         }
     });
 }
+
+function exit() {
+    $.ajax({
+        type: "GET",
+        url: '/AdminPanel/exit',
+        success: function (response) {
+            document.write(response);
+            location.reload(true);
+        }
+    });
+}

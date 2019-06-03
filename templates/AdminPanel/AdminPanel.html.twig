@@ -5,6 +5,16 @@
         <div class="row">
             <form class="text-center m-5">
                 <div class="form-group">
+                    <div class="row">
+                        <div class="col-xs-5 col-sm-8"></div>
+                        <div class="col-xs-5 col-sm-4">
+                            <button type="button" class="btn btn-danger" onclick="exit()">
+                                <h4>Выход из панели</h4>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
                     <div class="main-window">
                         <span class="form-control-lg"><a>Локализация</a></span>
                         <div class="row">
@@ -187,6 +197,15 @@
                     <!------------------------------------------>
                     <div class="form-group main-window" id="change_product">
                         <span class="form-control-lg"><h2>Изменить продукт</h2></span>
+                        <div id="img-action">
+                            <form class="hide row" id="upload-img" enctype="multipart/form-data" method="POST">
+                                <input class="" type="hidden" name="MAX_FILE_SIZE" value="300000" />
+                                <a>Выберите изображение: </a><input name="file[]" type="file" required multiple/>
+                                    <input class="btn btn-warning" type="submit" value="Загрузить изображение" />
+                            </form>
+                            <div id="add-img" class="row">
+                            </div>
+                        </div>
                         <div class="row">
                             <form class="text-center m-5">
                                 <div class="form-group" >
@@ -198,7 +217,6 @@
                                         {% endfor %}
                                     </select>
                                 </div>
-
                                 <div class="form-group" >
                                     <span class="form-control-lg"><a>Введите имя продукта*</a></span>
                                     <input id="change_product_name" class="form-control form-control-lg text-center" type="text" placeholder="Name" required>

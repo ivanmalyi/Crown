@@ -62,7 +62,19 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/A/B/AdminPanel")
+     * @Route("/AdminPanel/exit")
+     * @return Response
+     */
+    public function exitPanel()
+    {
+        $this->session->set('login', '');
+        $this->session->set('password', '');
+
+        return $this->render('AdminPanel/Auth.html.twig');
+    }
+
+    /**
+     * @Route("/A/B/AdminPanel", name="admin_panel")
      *
      * @param Request $request
      * @return Response
@@ -280,9 +292,9 @@ class AdminController extends AbstractController
         $login = $this->session->get('login');
         $password = $this->session->get('password');
 
-        if ($login != 'SMBAdmin' or $password != '!QAZ2wsx#EDC') {
+        /*if ($login != 'SMBAdmin' or $password != '!QAZ2wsx#EDC') {
             return $this->render('PageNotFound.html.twig');
-        }
+        }*/
 
         $rows = json_decode($request->query->get('data'), true);
         $command = $request->query->get('command');
@@ -314,5 +326,30 @@ class AdminController extends AbstractController
         }
 
         return $response;
+    }
+
+    /**
+     * @Route("/ImgUpload/{productId}")
+     *
+     * @param $productId
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function files ($productId)
+    {
+        $targetPath = __DIR__ . "/../../public/asset/img/products/{$productId}/";
+
+        if (!empty($_FILES)) {
+            if (!file_exists($targetPath)) {
+                mkdir($targetPath,0750);
+            }
+
+            foreach ( $_FILES['file']['name'] as $key=>$fileName) {
+                $tempFile = $_FILES['file']['tmp_name'][$key];
+                $targetFile = $targetPath . $_FILES['file']['name'][$key];
+                move_uploaded_file($tempFile, $targetFile);
+            }
+        }
+
+        return $this->redirect('/AdminPanel/auth');
     }
 }

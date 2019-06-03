@@ -17,6 +17,12 @@ use App\Entity\Statuses\ResponseStatus;
  */
 class ProductFacade extends AbstractFacade
 {
+
+    /**
+     * @var string
+     */
+    private $imagesCatalogue = __DIR__ . "/../../public/asset/img/products/";
+
     /**
      * @param ProductRequest[] $productRequest
      *
@@ -53,6 +59,23 @@ class ProductFacade extends AbstractFacade
             $params = $this->managerRegistry->getRepository(ProductLocalization::class)
                 ->findProduct($productRequest[0]);
 
+            $productId = $params[0]["product_id"];
+            $productImagesUrl = $this->imagesCatalogue . "{$productId}/";
+            $images = [];
+
+            try {
+                $files = scandir($productImagesUrl);
+                foreach ($files as $file) {
+                    if (is_file($productImagesUrl . $file)) {
+                        $imageType = exif_imagetype($productImagesUrl . $file);
+                        if (in_array($imageType, [IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG])) {
+                            $images[] = $file;
+                        }
+                    }
+                }
+            } catch (\Exception $e) {
+            }
+
             $response = [];
             foreach ($params as $param) {
                 $response[] = [
@@ -71,6 +94,7 @@ class ProductFacade extends AbstractFacade
                     "ProductTitleName"=>$param["title_name"],
                     "Description"=>$param["description"],
                     "Tag"=>$param["tag"],
+                    "Images"=>$images
                 ];
             }
 
