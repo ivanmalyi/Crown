@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\CountriesLocalizations;
+use App\Entity\Localization;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -91,5 +92,37 @@ class CountriesLocalizationsRepository extends ServiceEntityRepository
                 'id'=>$countriesLocalizations->getCountryLocalizationId()
             ]
         );
+    }
+
+    public function findCountriesByLocalizationId(Localization $localization): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = 'select id, country_id, localization_id, title_name, tag
+                from countries_localizations
+                where localization_id = :localizationId';
+
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(['localizationId'=>$localization->getId()]);
+        $rows = $stmt->fetchAll();
+
+        $countries = [];
+        foreach ($rows as $row) {
+            $countries[] = $this->inflate($row);
+        }
+
+        return $countries;
+    }
+
+    private function inflate(array $row):CountriesLocalizations
+    {
+        $countriesLocalizations = new CountriesLocalizations();
+        $countriesLocalizations->setCountryLocalizationId((int)$row['id']);
+        $countriesLocalizations->setCountryId((int)$row['country_id']);
+        $countriesLocalizations->setLocalizationId((int)$row['localization_id']);
+        $countriesLocalizations->setTitleName($row['title_name']);
+        $countriesLocalizations->setTag($row['tag']);
+
+        return $countriesLocalizations;
     }
 }

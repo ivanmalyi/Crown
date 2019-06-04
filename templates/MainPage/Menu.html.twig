@@ -1,0 +1,46 @@
+<form>
+    <div class="form-row">
+        <div class="col-xs-5">
+            <div class="col">
+                <input type="number" class="form-control" placeholder="Year from"> -
+                <input type="number" class="form-control" placeholder="Year to">
+            </div>
+        </div>
+        <div class="col-xs-5">
+            <div class="col">
+                <input type="number" class="form-control" placeholder="Height from"> -
+                <input type="number" class="form-control" placeholder="Height to">
+            </div>
+        </div>
+        <div class="col-xs-5">
+            <div class="col">
+                <select id="select_color" class="form-control">
+                    <label for="select_color">Color</label>
+                    <option selected>Color...</option>
+                    {% for color in MainPageData.getColors %}
+                        <option value="{{ color.getColorId }}">{{ color.getTitleName }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="col-xs-5">
+            <div class="col">
+                <select id="select_country" class="form-control">
+                    <label for="select_country">Country</label>
+                    <option selected>Country...</option>
+                    {% for country in MainPageData.getCountries %}
+                        <option value="{{ country.getCountryId }}">{{ country.getTitleName }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="col-xs-5">
+            <div class="col">
+                <select id="select_city" class="form-control">
+                    <label for="select_city">City</label>
+                    <option selected>City...</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</form>

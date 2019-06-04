@@ -92,4 +92,19 @@ class CityLocalizationRepository extends ServiceEntityRepository
             ]
         );
     }
+
+    public function findCityWithLocalization(CityRequest $cityRequest, Localization $localization)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = 'select cl.id, cl.city_id, cl.localization_id, cl.title_name, cl.tag 
+                from city_localization as cl
+                left join city as c on c.id = cl.city_id
+                where c.country_id = :countryId and cl.localization_id = :localizationId';
+
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(['countryId'=>$cityRequest->getCountryId(), 'localizationId'=>$localization->getId()]);
+
+        return $stmt->fetchAll();
+    }
 }

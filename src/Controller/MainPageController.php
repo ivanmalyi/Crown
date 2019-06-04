@@ -31,11 +31,14 @@ class MainPageController extends AbstractController
             $language = $selectedLanguage;
         } else {
             $language = $_COOKIE['Language'] ?? $request->query->get('language');
+            if (is_null($language)) {
+                $language = 'ru';
+            }
         }
 
         $mainPageFacade = new MainPageFacade($this->getDoctrine());
         $mainPageData = $mainPageFacade->mainContent($language);
 
-        return $this->render('MainPage/MainPage.html.twig', ['MainPageData'=>$mainPageData, 'language'=>$language]);
+        return $this->render('MainPage/MainPage.html.twig', ['MainPageData'=>$mainPageData]);
     }
 }

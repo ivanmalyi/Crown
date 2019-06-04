@@ -22,6 +22,21 @@ class MainPageData
     private $randomProduct;
 
     /**
+     * @var Localization[]
+     */
+    private $localizations;
+
+    /**
+     * @var ColorsLocalizations[]
+     */
+    private $colors;
+
+    /**
+     * @var CountriesLocalizations[]
+     */
+    private $countries;
+
+    /**
      * @return MainPageProduct[]
      */
     public function getVipProduct(): array
@@ -51,5 +66,53 @@ class MainPageData
     public function setRandomProduct(array $randomProduct): void
     {
         $this->randomProduct = $randomProduct;
+    }
+
+    /**
+     * @return Localization[]
+     */
+    public function getLocalizations(): array
+    {
+        return $this->localizations;
+    }
+
+    /**
+     * @param Localization[] $localizations
+     */
+    public function setLocalizations(array $localizations): void
+    {
+        $this->localizations = $localizations;
+    }
+
+    /**
+     * @return ColorsLocalizations[]
+     */
+    public function getColors(): array
+    {
+        return $this->colors;
+    }
+
+    /**
+     * @param ColorsLocalizations[] $colors
+     */
+    public function setColors(array $colors): void
+    {
+        $this->colors = $colors;
+    }
+
+    /**
+     * @return CountriesLocalizations[]
+     */
+    public function getCountries(): array
+    {
+        return $this->countries;
+    }
+
+    /**
+     * @param CountriesLocalizations[] $countries
+     */
+    public function setCountries(array $countries): void
+    {
+        $this->countries = $countries;
     }
 }

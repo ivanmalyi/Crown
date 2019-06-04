@@ -92,4 +92,36 @@ class ColorsLocalizationsRepository extends ServiceEntityRepository
             ]
         );
     }
+
+    public function findColorsByLocalizationId(Localization $localization): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = 'select cl.id, cl.color_id, cl.localization_id, cl.title_name, cl.tag 
+                from colors_localizations as cl
+                where cl.localization_id = :localizationId';
+
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(['localizationId'=>$localization->getId()]);
+        $rows = $stmt->fetchAll();
+
+        $colors = [];
+        foreach ($rows as $row) {
+            $colors[] = $this->inflate($row);
+        }
+
+        return $colors;
+    }
+
+    private function inflate(array $row): ColorsLocalizations
+    {
+        $colorsLocalizations = new ColorsLocalizations();
+        $colorsLocalizations->setId((int)$row['id']);
+        $colorsLocalizations->setColorId((int)$row['color_id']);
+        $colorsLocalizations->setLocalizationId((int)$row['localization_id']);
+        $colorsLocalizations->setTitleName($row['title_name']);
+        $colorsLocalizations->setTag($row['tag']);
+
+        return $colorsLocalizations;
+    }
 }
