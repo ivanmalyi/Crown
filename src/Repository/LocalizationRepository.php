@@ -134,6 +134,10 @@ class LocalizationRepository extends ServiceEntityRepository
         $stmt->execute(['tag'=>$tag]);
         $row = $stmt->fetch();
 
+        if ($row === false) {
+            return $this->findLocalizationByTag('ru');
+        }
+
         return $this->inflate($row);
     }
 }

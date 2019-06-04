@@ -7,7 +7,7 @@ namespace App\Facade;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
 
-class AbstractFacade
+abstract class AbstractFacade
 {
     protected $managerRegistry;
 

@@ -24,3 +24,49 @@
     height: 10%;
     border: 5px solid #005cbf;
 }
+
+.title-vip {
+    background: #f8d7da;
+    cursor: pointer;
+}
+
+.title-random {
+    background: #b1dfbb;
+    cursor: pointer;
+}
+
+a {
+    font-style: initial;
+    font-weight: bold;
+    font-size: large;
+}
+
+@media (min-width: 100px) {
+    a {
+        font-size: 5vw;
+    }
+}
+
+@media (min-width: 576px) {
+    a {
+        font-size: 2vw;
+    }
+}
+
+@media (min-width: 800px) {
+    a {
+        font-size: 1.8vw;
+    }
+}
+
+@media (min-width: 950px) {
+    a {
+        font-size: 2vw;
+    }
+}
+
+@media (min-width: 1350px) {
+    a {
+        font-size: 1vw;
+    }
+}

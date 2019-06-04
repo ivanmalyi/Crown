@@ -3,12 +3,105 @@
 {% block body %}
     <div class="container">
         <div class="row">
-            <form class="text-center m-5">
-                <div class="form-group">
-                    <div class="col"></div>
-                    <div class="col"></div>
-                </div>
-            </form>
+            <div class="col-xs-5 col-sm-11">
+            <img src="/asset/img/header_img.jpg" class="img-fluid" alt="Responsive image">
+            </div>
+            <div class="col-xs-5 col-sm-1">
+                <h4>{{ language }}</h4>
+            </div>
+        </div>
+        <div class="row"><h1>Main menu</h1></div>
+        <div class="row">
+            <div class="col-xs-5 col-sm-9">
+                <form class="text-center m-5">
+                    {% for vipProduct in MainPageData.getVipProduct %}
+                        <div class="form-group title-vip" data-toggle="modal" data-target="#product-target{{ vipProduct.getProductId }}">
+                            <div class="row">
+                                <div class="col-xs-5 col-sm-6">
+                                    <br>
+                                    <img class="rounded" src='/asset/img/products/{{ vipProduct.getProductId }}/{{ vipProduct.getAvatar }}' width="80%" height="80%">
+                                </div>
+                                <div class="col-xs-5 col-sm-6">
+                                    <div class="col">
+                                        <img class="rounded" src='/asset/img/vip.png' width="30%" height="30%">
+                                    </div>
+                                    <br>
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col-xs-6 col-sm-4">
+                                                <span><a>Name: </a></span>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-3">
+                                                <a style="color: white">{{ vipProduct.getTitleName }}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col-xs-6 col-sm-4">
+                                                <span><a>Year: </a></span>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-3">
+                                                <a style="color: white">{{ vipProduct.getYear }}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col-xs-6 col-sm-4">
+                                                <span><a>Color: </a></span>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-3">
+                                                <a style="color: white">{{ vipProduct.getColor }}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col-xs-6 col-sm-4">
+                                                <span><a>Country: </a></span>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-3">
+                                                <a style="color: white">{{ vipProduct.getCountry }}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col-xs-6 col-sm-4">
+                                                <span><a>City: </a></span>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-3">
+                                                <a style="color: white">{{ vipProduct.getCity }}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% set Product = { 'Product': vipProduct } %}
+                                    {% include "MainPage/ShowProduct.html.twig" with Product %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </form>
+            </div>
+            <div class="col-xs-5 col-sm-3">
+                <form class="text-center m-5">
+                    {% for randomProduct in MainPageData.getRandomProduct %}
+                        <div class="form-group title-random" data-toggle="modal" data-target="#product-target{{ randomProduct.getProductId }}">
+                            <div class="row">
+                                <div class="col-xs-5 col-sm-4">
+                                    <img class="rounded" src='/asset/img/products/{{ randomProduct.getProductId }}/{{ randomProduct.getAvatar }}' width="100%" height="100%">
+                                </div>
+                                <div class="col-xs-5 col-sm-8">
+                                    <a>{{ randomProduct.getTitleName }}</a>
+                                </div>
+                            </div>
+                            {% set Product = { 'Product': randomProduct } %}
+                            {% include "MainPage/ShowProduct.html.twig" with Product %}
+                        </div>
+                    {% endfor %}
+                </form>
+            </div>
         </div>
     </div>
 {% endblock %}

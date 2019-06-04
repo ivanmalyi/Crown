@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta charset="UTF-8">
         {% block stylesheets %}
             <link href="{{ asset("asset/css/bootstrap.css") }}" rel="stylesheet" />
@@ -8,7 +9,7 @@
             <link href="{{ asset("asset/css/common.css") }}" rel="stylesheet" />
         {% endblock %}
     </head>
-    <body>
+    <body onload="loadMainPage()">
         {% block body %}{% endblock %}
     </body>
     {% block javascripts %}
@@ -22,5 +23,6 @@
         <script src="{{ asset("asset/js/product.js") }}"></script>
         <script src="{{ asset("asset/js/auth.js") }}"></script>
         <script src="{{ asset("asset/js/img.js") }}"></script>
+        <script src="{{ asset("asset/js/mainPage.js") }}"></script>
     {% endblock %}
 </html>
