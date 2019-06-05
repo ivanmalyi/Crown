@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\FilterRequest;
 use App\Entity\Localization;
 use App\Entity\MainPageProduct;
 use App\Entity\ProductLocalization;
@@ -190,6 +191,71 @@ class ProductLocalizationRepository extends ServiceEntityRepository
 
         $stmt = $conn->prepare($sql2);
         $stmt->execute(['localizationId'=>$localization->getId()]);
+
+        $rows = $stmt->fetchAll();
+
+        $productsRequest = [];
+        foreach ($rows as $row) {
+            $productsRequest[] = $this->inflateMainPageProduct($row);
+        }
+
+        return $productsRequest;
+    }
+
+    public function findSelectedProducts(FilterRequest $filterRequest, Localization $localization): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $placeholders = ['localizationId'=>$localization->getId()];
+        $sql = 'select p.id as product_id, p.height, p.year, p.avatar, cl.title_name as color_name, pl.tag,
+                  ctry_l.title_name as country_name, city_l.title_name as city_name, pl.title_name, pl.description
+                from  product as p
+                left join product_localization as pl on p.id = pl.product_id
+                left join colors_localizations as cl on cl.color_id = p.color_id
+                left join countries_localizations as ctry_l on ctry_l.country_id = p.country_id
+                left join city_localization as city_l on city_l.city_id = p.city_id
+                where p.status = 1 and
+                  pl.localization_id = :localizationId and cl.localization_id = :localizationId and ctry_l.localization_id = :localizationId and city_l.localization_id = :localizationId';
+
+        if ($filterRequest->getYearFrom() != 0 and $filterRequest->getYearTo() != 0 and $filterRequest->getYearFrom() <= $filterRequest->getYearTo()) {
+            $sql .= ' and p.year >= :yearFrom and p.year <= :yearTo';
+            $placeholders += [
+                'yearFrom'=>$filterRequest->getYearTo(),
+                'yearTo'=>$filterRequest->getYearFrom()
+            ];
+        }
+
+        if ($filterRequest->getHeightFrom() != 0 and $filterRequest->getHeightTo() != 0 and $filterRequest->getHeightFrom() <= $filterRequest->getHeightTo()) {
+            $sql .= ' and p.height >= :heightFrom and p.height <= :heightTo';
+            $placeholders += [
+                'heightFrom'=>$filterRequest->getHeightFrom(),
+                'heightTo'=>$filterRequest->getHeightTo()
+            ];
+        }
+
+        if ($filterRequest->getColorId() != 0) {
+            $sql .= ' and p.color_id = :colorId';
+            $placeholders += [
+                'colorId'=>$filterRequest->getColorId()
+            ];
+        }
+
+        if ($filterRequest->getCountryId() != 0) {
+            $sql .= ' and p.country_id = :countryId';
+            $placeholders += [
+                'countryId'=>$filterRequest->getCountryId()
+            ];
+        }
+
+        if ($filterRequest->getCountryId() != 0) {
+            $sql .= ' and p.city_id = :cityId';
+            $placeholders += [
+                'cityId'=>$filterRequest->getCityId()
+            ];
+        }
+
+        $stmt = $conn->prepare($sql);
+        $stmt->execute($placeholders);
 
         $rows = $stmt->fetchAll();
 

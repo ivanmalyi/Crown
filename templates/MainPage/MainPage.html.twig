@@ -1,7 +1,7 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
-    <div class="container" style="background: rgba(55,112,227,0.07)">
+    <div class="container" style="background: rgba(85,85,85,0.04)">
         <div class="row">
             <div class="col-xs-5 col-sm-10">
             <img src="/asset/img/header_img.jpg" class="img-fluid" alt="Responsive image">
@@ -17,23 +17,32 @@
             </div>
         </div>
         <br>
+        <div class="row"><a>Contacts: </a></div>
         <div class="row" style="background: rgba(0,97,215,0.07)">
             {% include "MainPage/Menu.html.twig" %}
         </div>
         <div class="row">
-            <div class="col-xs-5 col-sm-9">
+            <div class="col-xs-5 col-sm-8">
                 <form class="text-center m-5">
-                    {% for vipProduct in MainPageData.getVipProduct %}
-                        <div class="form-group title-vip" data-toggle="modal" data-target="#product-target{{ vipProduct.getProductId }}">
+                    {% if MainPageData.getSelectedProduct is empty %}
+                        {% set Products =  MainPageData.getVipProduct  %}
+                    {% else %}
+                        {% set Products =  MainPageData.getSelectedProduct  %}
+                    {% endif %}
+
+                    {% for Product in Products %}
+                        <div class="form-group title-vip" >
                             <div class="row">
                                 <div class="col-xs-5 col-sm-6">
                                     <br>
-                                    <img class="rounded" src='/asset/img/products/{{ vipProduct.getProductId }}/{{ vipProduct.getAvatar }}' width="80%" height="80%">
+                                    <img class="rounded" src='/asset/img/products/{{ Product.getProductId }}/{{ Product.getAvatar }}' width="80%" height="80%">
                                 </div>
                                 <div class="col-xs-5 col-sm-6">
-                                    <div class="col">
-                                        <img class="rounded" src='/asset/img/vip.png' width="30%" height="30%">
-                                    </div>
+                                    {% if MainPageData.getSelectedProduct is empty %}
+                                        <div class="col">
+                                            <img class="rounded" src='/asset/img/vip.png' width="30%" height="30%">
+                                        </div>
+                                    {% endif %}
                                     <br>
                                     <div class="col">
                                         <div class="row">
@@ -41,7 +50,7 @@
                                                 <span><a>Name: </a></span>
                                             </div>
                                             <div class="col-xs-6 col-sm-3">
-                                                <a style="color: white">{{ vipProduct.getTitleName }}</a>
+                                                <a style="color: white">{{ Product.getTitleName }}</a>
                                             </div>
                                         </div>
                                     </div>
@@ -51,7 +60,7 @@
                                                 <span><a>Year: </a></span>
                                             </div>
                                             <div class="col-xs-6 col-sm-3">
-                                                <a style="color: white">{{ vipProduct.getYear }}</a>
+                                                <a style="color: white">{{ Product.getYear }}</a>
                                             </div>
                                         </div>
                                     </div>
@@ -61,7 +70,7 @@
                                                 <span><a>Height: </a></span>
                                             </div>
                                             <div class="col-xs-6 col-sm-3">
-                                                <a style="color: white">{{ vipProduct.getHeight }}</a>
+                                                <a style="color: white">{{ Product.getHeight }}</a>
                                             </div>
                                         </div>
                                     </div>
@@ -71,7 +80,7 @@
                                                 <span><a>Color: </a></span>
                                             </div>
                                             <div class="col-xs-6 col-sm-3">
-                                                <a style="color: white">{{ vipProduct.getColor }}</a>
+                                                <a style="color: white">{{ Product.getColor }}</a>
                                             </div>
                                         </div>
                                     </div>
@@ -81,7 +90,7 @@
                                                 <span><a>Country: </a></span>
                                             </div>
                                             <div class="col-xs-6 col-sm-3">
-                                                <a style="color: white">{{ vipProduct.getCountry }}</a>
+                                                <a style="color: white">{{ Product.getCountry }}</a>
                                             </div>
                                         </div>
                                     </div>
@@ -91,11 +100,14 @@
                                                 <span><a>City: </a></span>
                                             </div>
                                             <div class="col-xs-6 col-sm-3">
-                                                <a style="color: white">{{ vipProduct.getCity }}</a>
+                                                <a style="color: white">{{ Product.getCity }}</a>
                                             </div>
                                         </div>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#product-target{{ Product.getProductId }}">
+                                            show
+                                        </button>
                                     </div>
-                                    {% set Product = { 'Product': vipProduct } %}
+                                    {% set Product = { 'Product': Product } %}
                                     {% include "MainPage/ShowProduct.html.twig" with Product %}
                                 </div>
                             </div>
@@ -103,16 +115,21 @@
                     {% endfor %}
                 </form>
             </div>
-            <div class="col-xs-5 col-sm-3">
+            <div class="col-xs-5 col-sm-4">
                 <form class="text-center m-5">
                     {% for randomProduct in MainPageData.getRandomProduct %}
-                        <div class="form-group title-random" data-toggle="modal" data-target="#product-target{{ randomProduct.getProductId }}">
+                        <div class="form-group title-random">
                             <div class="row">
-                                <div class="col-xs-5 col-sm-5">
+                                <div class="col-xs-5 col-sm-4">
                                     <img class="rounded" src='/asset/img/products/{{ randomProduct.getProductId }}/{{ randomProduct.getAvatar }}' width="100%" height="100%">
                                 </div>
-                                <div class="col-xs-5 col-sm-7">
-                                    <a>{{ randomProduct.getTitleName }}</a>
+                                <div class="col-xs-5 col-sm-6">
+                                    <div class="col">
+                                        <a>{{ randomProduct.getTitleName }}</a>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#product-target{{ randomProduct.getProductId }}">
+                                        show
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                             {% set Product = { 'Product': randomProduct } %}

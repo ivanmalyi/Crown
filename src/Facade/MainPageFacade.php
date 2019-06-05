@@ -14,21 +14,31 @@ use App\Entity\MainPageProduct;
 
 class MainPageFacade extends AbstractFacade
 {
-    public function mainContent(string $tag)
+    public function mainContent(string $tag, $filterRequest = null)
     {
         $mainPageData = new MainPageData();
 
         $localization = $this->managerRegistry->getRepository(Localization::class)
             ->findLocalizationByTag($tag);
 
-        $vipProducts = $this->managerRegistry->getRepository(ProductLocalization::class)
-            ->findVipProducts($localization);
+        if (!is_null($filterRequest)) {
+            $selectedProducts = $this->managerRegistry->getRepository(ProductLocalization::class)
+                ->findSelectedProducts($filterRequest, $localization);
+            foreach ($selectedProducts as $selectedProduct) {
+                /**@var MainPageProduct $selectedProduct*/
+                $selectedProduct->setImages($this->findImages($selectedProduct->getProductId()));
+            }
+            $mainPageData->setSelectedProduct($selectedProducts);
 
-        foreach ($vipProducts as $vipProduct) {
-            /**@var MainPageProduct $vipProduct*/
-            $vipProduct->setImages($this->findImages($vipProduct->getProductId()));
+        } else {
+            $selectedProducts = $this->managerRegistry->getRepository(ProductLocalization::class)
+                ->findVipProducts($localization);
+            foreach ($selectedProducts as $selectedProduct) {
+                /**@var MainPageProduct $selectedProduct*/
+                $selectedProduct->setImages($this->findImages($selectedProduct->getProductId()));
+            }
+            $mainPageData->setVipProduct($selectedProducts);
         }
-        $mainPageData->setVipProduct($vipProducts);
 
         $randomProducts = $this->managerRegistry->getRepository(ProductLocalization::class)
             ->findRandomProducts($localization);

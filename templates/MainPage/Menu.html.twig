@@ -1,46 +1,45 @@
-<form>
+<form id="main-menu">
     <div class="form-row">
-        <div class="col-xs-5">
-            <div class="col">
-                <input type="number" class="form-control" placeholder="Year from"> -
-                <input type="number" class="form-control" placeholder="Year to">
-            </div>
+        <div class="col-12 col-md-2">
+            <input id="year-from" type="number" class="form-control" placeholder="Year from"> -
+            <input id="year-to" type="number" class="form-control" placeholder="Year to">
         </div>
-        <div class="col-xs-5">
-            <div class="col">
-                <input type="number" class="form-control" placeholder="Height from"> -
-                <input type="number" class="form-control" placeholder="Height to">
-            </div>
+        <br>
+        <div class="col-12 col-md-2">
+            <input id="height-from" type="number" class="form-control" placeholder="Height from"> -
+            <input id="height-to" type="number" class="form-control" placeholder="Height to">
         </div>
-        <div class="col-xs-5">
-            <div class="col">
-                <select id="select_color" class="form-control">
-                    <label for="select_color">Color</label>
-                    <option selected>Color...</option>
-                    {% for color in MainPageData.getColors %}
-                        <option value="{{ color.getColorId }}">{{ color.getTitleName }}</option>
-                    {% endfor %}
-                </select>
-            </div>
+        <br>
+        <div class="col-12 col-md-2">
+            <select id="select_color" class="form-control">
+                <label for="select_color">Color</label>
+                <option selected>Color...</option>
+                {% for color in MainPageData.getColors %}
+                    <option value="{{ color.getColorId }}">{{ color.getTitleName }}</option>
+                {% endfor %}
+            </select>
         </div>
-        <div class="col-xs-5">
-            <div class="col">
-                <select id="select_country" class="form-control">
-                    <label for="select_country">Country</label>
-                    <option selected>Country...</option>
-                    {% for country in MainPageData.getCountries %}
-                        <option value="{{ country.getCountryId }}">{{ country.getTitleName }}</option>
-                    {% endfor %}
-                </select>
-            </div>
+        <br>
+        <div class="col-12 col-md-2">
+            <select onclick="findCityForMenu(this.value)" id="select_country" class="form-control">
+                <label for="select_country">Country</label>
+                <option selected>Country...</option>
+                {% for country in MainPageData.getCountries %}
+                    <option value="{{ country.getCountryId }}">{{ country.getTitleName }}</option>
+                {% endfor %}
+            </select>
         </div>
-        <div class="col-xs-5">
-            <div class="col">
-                <select id="select_city" class="form-control">
-                    <label for="select_city">City</label>
-                    <option selected>City...</option>
-                </select>
-            </div>
+        <br>
+        <div class="col-12 col-md-2">
+            <select id="select_city" class="form-control">
+                <label for="select_city">City</label>
+                <option selected>City...</option>
+            </select>
+        </div>
+        <div class="col-12 col-md-2">
+            <button type="button" class="btn btn-success" onclick="findProductByFilter()">
+                Поиск
+            </button>
         </div>
     </div>
 </form>

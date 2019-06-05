@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="col-xs-5 col-sm-6">
                     <br>
-                    <img class="rounded" src='/asset/img/products/{{ Product.getProductId }}/{{ Product.getAvatar }}' width="80%" height="80%">
+                    <img class="rounded" src='/asset/img/products/{{ Product.getProductId }}/{{ Product.getAvatar }}' width="60%" height="60%">
                 </div>
                 <div class="col-xs-5 col-sm-6">
                     <div class="col">
@@ -95,11 +95,11 @@
                             {% for image in Product.getImages %}
                                 {% if loop.index == 1 %}
                                     <div class="carousel-item active">
-                                        <img class="d-block w-50" src="/asset/img/products/{{ Product.getProductId }}/{{ image }}">
+                                        <img class="d-block" src="/asset/img/products/{{ Product.getProductId }}/{{ image }}"  width="40%" height="40%">
                                     </div>
                                 {% else %}
                                     <div class="carousel-item">
-                                        <img class="d-block w-50" src="/asset/img/products/{{ Product.getProductId }}/{{ image }}">
+                                        <img class="d-block" src="/asset/img/products/{{ Product.getProductId }}/{{ image }}" width="40%" height="40%">
                                     </div>
                                 {% endif %}
                             {% endfor %}

@@ -120,4 +120,28 @@ class CityFacade extends AbstractFacade
 
         return $response;
     }
+
+    public function findCitiesWithLocalization(array $cityRequest, string $language): string
+    {
+        try {
+            $localization = $this->managerRegistry->getRepository(Localization::class)
+                ->findLocalizationByTag($language);
+            $cityLocalizations = $this->managerRegistry->getRepository(CityLocalization::class)
+                ->findCityWithLocalization($cityRequest[0], $localization);
+            $response = [];
+            foreach ($cityLocalizations as $cityLocalization) {
+                $response[] = [
+                    'CityLocalizationId'=>$cityLocalization['id'],
+                    'CityId' => $cityLocalization['city_id'],
+                    'LocalizationId' => $cityLocalization['id'],
+                    'TitleName' => $cityLocalization['title_name'],
+                    'Tag' => $cityLocalization['tag']
+                ];
+            }
+            $response = json_encode($response);
+        } catch (\Throwable $t) {
+            $response = json_encode([]);
+        }
+        return $response;
+    }
 }

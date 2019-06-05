@@ -14,27 +14,32 @@ class MainPageData
     /**
      * @var MainPageProduct[]
      */
-    private $vipProduct;
+    private $vipProduct = [];
 
     /**
      * @var MainPageProduct[]
      */
-    private $randomProduct;
+    private $randomProduct = [];
+
+    /**
+     * @var MainPageProduct[]
+     */
+    private $selectedProduct = [];
 
     /**
      * @var Localization[]
      */
-    private $localizations;
+    private $localizations = [];
 
     /**
      * @var ColorsLocalizations[]
      */
-    private $colors;
+    private $colors = [];
 
     /**
      * @var CountriesLocalizations[]
      */
-    private $countries;
+    private $countries = [];
 
     /**
      * @return MainPageProduct[]
@@ -114,5 +119,21 @@ class MainPageData
     public function setCountries(array $countries): void
     {
         $this->countries = $countries;
+    }
+
+    /**
+     * @return MainPageProduct[]
+     */
+    public function getSelectedProduct(): array
+    {
+        return $this->selectedProduct;
+    }
+
+    /**
+     * @param MainPageProduct[] $selectedProduct
+     */
+    public function setSelectedProduct(array $selectedProduct): void
+    {
+        $this->selectedProduct = $selectedProduct;
     }
 }
