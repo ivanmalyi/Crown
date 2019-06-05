@@ -55,7 +55,7 @@ class MenuRepository extends ServiceEntityRepository
                 'search'=>$menu->getSearch(),
                 'shows'=>$menu->getShow(),
                 'contacts'=>$menu->getContacts(),
-                'name'=>$menu->getContacts(),
+                'name'=>$menu->getName(),
                 'description'=>$menu->getDescription(),
             ]
         );
@@ -121,5 +121,24 @@ class MenuRepository extends ServiceEntityRepository
         $menu->setDescription($row['description']);
 
         return $menu;
+    }
+
+    public function findAllMenus(): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = 'select id, tag, localization_id, language, fromf, tot, year, height, color, country, city, search, shows, contacts, name, description
+                from menu';
+
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([]);
+        $rows = $stmt->fetchAll();
+
+        $menus = [];
+        foreach ($rows as $row) {
+            $menus[] = $this->inflate($row);
+        }
+
+        return $menus;
     }
 }

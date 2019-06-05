@@ -35,6 +35,11 @@ class AdminData
     private $products;
 
     /**
+     * @var Menu[]
+     */
+    private $menus;
+
+    /**
      * @return Localization[]
      */
     public function getLocalizations(): array
@@ -96,5 +101,21 @@ class AdminData
     public function setProducts(array $products): void
     {
         $this->products = $products;
+    }
+
+    /**
+     * @return Menu[]
+     */
+    public function getMenus(): array
+    {
+        return $this->menus;
+    }
+
+    /**
+     * @param Menu[] $menus
+     */
+    public function setMenus(array $menus): void
+    {
+        $this->menus = $menus;
     }
 }

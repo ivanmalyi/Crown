@@ -12,48 +12,98 @@
                 <span class="form-control-lg"><a>Текст главной страницы и меню*</a></span>
                 <form id="menu-text">
                     {% for localization in localizations %}
-                        <span class="input-group-text form-control-lg"><a name="{{ localization.getTag }}">{{ localization.getTag }} {{ localization.getName }}</a></span>
-                        <div class="form-row" id="{{ localization.getTag }}">
-                            <div class="col-12 col-md-2">
-                                <input id="language" type="text" class="form-control" placeholder="Кнопка выбора языка" title="Кнопка выбора языка">
+                        {% set issetLocaleMenu = false %}
+                        {% for menu in menus %}
+                            {% if localization.getId == menu.getLocalizationId %}
+                            {% set issetLocaleMenu = true %}
+                            <span class="input-group-text form-control-lg"><a name="{{ localization.getTag }}">{{ localization.getTag }} {{ localization.getName }}</a></span>
+                            <div class="form-row" id="{{ localization.getTag }}">
+                                <div class="col-12 col-md-2">
+                                    <input id="language" type="text" class="form-control" placeholder="Кнопка выбора языка" title="Кнопка выбора языка" value="{{ menu.getLanguage }}">
+                                </div>
+                                <div class="col-12 col-md-2">
+                                    <input id="from" type="text" class="form-control" placeholder="Для диапазона: 'От'" title="Для диапазона: 'От'" value="{{ menu.getFromf }}">
+                                </div>
+                                <div class="col-12 col-md-2">
+                                    <input id="to" type="text" class="form-control" placeholder="Для диапазона: 'До'" title="Для диапазона: 'До'" value="{{ menu.getTot }}">
+                                </div>
+                                <div class="col-12 col-md-2">
+                                    <input id="year" type="text" class="form-control" placeholder="Возраст" title="Возраст" value="{{ menu.getYear }}">
+                                </div>
+                                <div class="col-12 col-md-2">
+                                    <input id="height" type="text" class="form-control" placeholder="Рост" title="Рост" value="{{ menu.getHeight }}">
+                                </div>
+                                <div class="col-12 col-md-2">
+                                    <input id="color" type="text" class="form-control" placeholder="Цвет" title="Цвет" value="{{ menu.getColor }}">
+                                </div>
+                                <div class="col-12 col-md-2">
+                                    <input id="country" type="text" class="form-control" placeholder="Страна" title="Страна" value="{{ menu.getCountry }}">
+                                </div>
+                                <div class="col-12 col-md-2">
+                                    <input id="city" type="text" class="form-control" placeholder="Город" title="Город" value="{{ menu.getCity }}">
+                                </div>
+                                <div class="col-12 col-md-2">
+                                    <input id="search" type="text" class="form-control" placeholder="Кнопка поиска" title="Кнопка поиска" value="{{ menu.getSearch }}">
+                                </div>
+                                <div class="col-12 col-md-2">
+                                    <input id="show" type="text" class="form-control" placeholder="Кнопка показать продукт" title="Кнопка показать продукт" value="{{ menu.getShows }}">
+                                </div>
+                                <div class="col-12 col-md-2">
+                                    <input id="name" type="text" class="form-control" placeholder="имя" title="имя" value="{{ menu.getName }}">
+                                </div>
+                                <div class="col-12 col-md-2">
+                                    <input id="description" type="text" class="form-control" placeholder="описание" title="описание" value="{{ menu.getDescription }}">
+                                </div>
+                                <div class="col-12 col-md-5">
+                                    <input id="contacts" type="text" class="form-control" placeholder="Контакты" title="Контакты" value="{{ menu.getContacts }}">
+                                </div>
                             </div>
-                            <div class="col-12 col-md-2">
-                                <input id="from" type="text" class="form-control" placeholder="Для диапазона: 'От'" title="Для диапазона: 'От'">
+                            {% endif %}
+                        {% endfor %}
+                        {% if issetLocaleMenu == false %}
+                            <span class="input-group-text form-control-lg"><a name="{{ localization.getTag }}">{{ localization.getTag }} {{ localization.getName }}</a></span>
+                            <div class="form-row" id="{{ localization.getTag }}">
+                                <div class="col-12 col-md-2">
+                                    <input id="language" type="text" class="form-control" placeholder="Кнопка выбора языка" title="Кнопка выбора языка">
+                                </div>
+                                <div class="col-12 col-md-2">
+                                    <input id="from" type="text" class="form-control" placeholder="Для диапазона: 'От'" title="Для диапазона: 'От'">
+                                </div>
+                                <div class="col-12 col-md-2">
+                                    <input id="to" type="text" class="form-control" placeholder="Для диапазона: 'До'" title="Для диапазона: 'До'">
+                                </div>
+                                <div class="col-12 col-md-2">
+                                    <input id="year" type="text" class="form-control" placeholder="Возраст" title="Возраст">
+                                </div>
+                                <div class="col-12 col-md-2">
+                                    <input id="height" type="text" class="form-control" placeholder="Рост" title="Рост">
+                                </div>
+                                <div class="col-12 col-md-2">
+                                    <input id="color" type="text" class="form-control" placeholder="Цвет" title="Цвет">
+                                </div>
+                                <div class="col-12 col-md-2">
+                                    <input id="country" type="text" class="form-control" placeholder="Страна" title="Страна">
+                                </div>
+                                <div class="col-12 col-md-2">
+                                    <input id="city" type="text" class="form-control" placeholder="Город" title="Город">
+                                </div>
+                                <div class="col-12 col-md-2">
+                                    <input id="search" type="text" class="form-control" placeholder="Кнопка поиска" title="Кнопка поиска">
+                                </div>
+                                <div class="col-12 col-md-2">
+                                    <input id="show" type="text" class="form-control" placeholder="Кнопка показать продукт" title="Кнопка показать продукт">
+                                </div>
+                                <div class="col-12 col-md-2">
+                                    <input id="name" type="text" class="form-control" placeholder="имя" title="имя">
+                                </div>
+                                <div class="col-12 col-md-2">
+                                    <input id="description" type="text" class="form-control" placeholder="описание" title="описание">
+                                </div>
+                                <div class="col-12 col-md-5">
+                                    <input id="contacts" type="text" class="form-control" placeholder="Контакты" title="Контакты">
+                                </div>
                             </div>
-                            <div class="col-12 col-md-2">
-                                <input id="to" type="text" class="form-control" placeholder="Для диапазона: 'До'" title="Для диапазона: 'До'">
-                            </div>
-                            <div class="col-12 col-md-2">
-                                <input id="year" type="text" class="form-control" placeholder="Возраст" title="Возраст">
-                            </div>
-                            <div class="col-12 col-md-2">
-                                <input id="height" type="text" class="form-control" placeholder="Рост" title="Рост">
-                            </div>
-                            <div class="col-12 col-md-2">
-                                <input id="color" type="text" class="form-control" placeholder="Цвет" title="Цвет">
-                            </div>
-                            <div class="col-12 col-md-2">
-                                <input id="country" type="text" class="form-control" placeholder="Страна" title="Страна">
-                            </div>
-                            <div class="col-12 col-md-2">
-                                <input id="city" type="text" class="form-control" placeholder="Город" title="Город">
-                            </div>
-                            <div class="col-12 col-md-2">
-                                <input id="search" type="text" class="form-control" placeholder="Кнопка поиска" title="Кнопка поиска">
-                            </div>
-                            <div class="col-12 col-md-2">
-                                <input id="show" type="text" class="form-control" placeholder="Кнопка показать продукт" title="Кнопка показать продукт">
-                            </div>
-                            <div class="col-12 col-md-2">
-                                <input id="name" type="text" class="form-control" placeholder="имя" title="имя">
-                            </div>
-                            <div class="col-12 col-md-2">
-                                <input id="description" type="text" class="form-control" placeholder="описание" title="описание">
-                            </div>
-                            <div class="col-12 col-md-5">
-                                <input id="contacts" type="text" class="form-control" placeholder="Контакты" title="Контакты">
-                            </div>
-                        </div>
+                        {% endif %}
                     {% endfor %}
 
                 </form>

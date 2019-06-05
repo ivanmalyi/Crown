@@ -108,7 +108,7 @@
                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#menu">
                                             Обновить текст
                                         </button>
-                                        {% include "AdminPanel/Menu.html.twig"  with localizations %}
+                                        {% include "AdminPanel/Menu.html.twig"  with { 'localizations': adminData.getLocalizations, 'menus': adminData.getMenus } %}
                                     </div>
                                 </div>
                             </div>

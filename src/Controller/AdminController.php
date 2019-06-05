@@ -366,9 +366,9 @@ class AdminController extends AbstractController
         $login = $this->session->get('login');
         $password = $this->session->get('password');
 
-        /*if ($login != 'SMBAdmin' or $password != '!QAZ2wsx#EDC') {
+        if ($login != 'SMBAdmin' or $password != '!QAZ2wsx#EDC') {
             return $this->render('PageNotFound.html.twig');
-        }*/
+        }
 
         $rows = json_decode($request->query->get('data'), true);
         $command = $request->query->get('command');
