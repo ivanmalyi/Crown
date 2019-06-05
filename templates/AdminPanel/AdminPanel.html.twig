@@ -213,11 +213,13 @@
                         <div class="form-group main-window" id="change_product">
                             <span class="form-control-lg"><h2>Изменить продукт</h2></span>
                             <div id="img-action">
+                                <a>Для работы с изображениями выберите продукт</a>
                                 <form class="hide row" id="upload-img" enctype="multipart/form-data" method="POST">
                                     <input class="" type="hidden" name="MAX_FILE_SIZE" value="300000" />
                                     <a>Выберите изображение: </a><input name="file[]" type="file" required multiple/>
                                         <input class="btn btn-warning" type="submit" value="Загрузить изображение" />
                                 </form>
+                                <!--Заполняется в методе findProduct()-->
                                 <div id="add-img" class="row">
                                 </div>
                             </div>

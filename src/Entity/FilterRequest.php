@@ -59,7 +59,12 @@ class FilterRequest
      */
     public function setYearFrom(int $yearFrom): void
     {
-        $this->yearFrom = (int)date('Y') - $yearFrom;
+        if ($yearFrom == 0) {
+            $this->yearFrom = $yearFrom;
+        } else {
+            $this->yearFrom = (int)date('Y') - $yearFrom;
+        }
+
     }
 
     /**
@@ -75,7 +80,11 @@ class FilterRequest
      */
     public function setYearTo(int $yearTo): void
     {
-        $this->yearTo = (int)date('Y') - $yearTo;
+        if ($yearTo == 0) {
+            $this->yearTo = $yearTo;
+        } else {
+            $this->yearTo = (int)date('Y') - $yearTo;
+        }
     }
 
     /**

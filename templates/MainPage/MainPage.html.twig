@@ -36,12 +36,12 @@
                                 <div class="row">
                                     <div class="col-xs-5 col-sm-6">
                                         <br>
-                                        <img class="rounded" src='/asset/img/products/{{ Product.getProductId }}/{{ Product.getAvatar }}' width="80%" height="80%">
+                                        <img class="rounded d-block w-100" src='/asset/img/products/{{ Product.getProductId }}/{{ Product.getAvatar }}'>
                                     </div>
                                     <div class="col-xs-5 col-sm-6">
                                         {% if Product.getVip == 1 %}
                                             <div class="col">
-                                                <img class="rounded" src='/asset/img/vip.png' width="30%" height="30%">
+                                                <img class="rounded d-block w-50" src='/asset/img/vip.png'>
                                             </div>
                                         {% endif %}
                                         <br>
@@ -121,8 +121,8 @@
                         {% for randomProduct in MainPageData.getRandomProduct %}
                             <div class="form-group title-random">
                                 <div class="row">
-                                    <div class="col-xs-5 col-sm-4">
-                                        <img class="rounded" src='/asset/img/products/{{ randomProduct.getProductId }}/{{ randomProduct.getAvatar }}' width="100%" height="100%">
+                                    <div class="col-xs-5 col-sm-6">
+                                        <img class="rounded rounded d-block w-100" src='/asset/img/products/{{ randomProduct.getProductId }}/{{ randomProduct.getAvatar }}'>
                                     </div>
                                     <div class="col-xs-5 col-sm-6">
                                         <div class="col">
