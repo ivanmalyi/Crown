@@ -24,4 +24,5 @@ class CommandStatus
     const ADD_PRODUCT = 'AddProduct';
     const FIND_PRODUCT = 'FindProduct';
     const UPDATE_PRODUCT = 'UpdateProduct';
+    const UPDATE_MENU = 'UpdateMenu';
 }

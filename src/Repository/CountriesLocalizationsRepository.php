@@ -89,7 +89,7 @@ class CountriesLocalizationsRepository extends ServiceEntityRepository
                 'titleName' => $countriesLocalizations->getTitleName(),
                 'countryId'=> $countryId,
                 'tag'=>$countriesLocalizations->getTag(),
-                'id'=>$countriesLocalizations->getCountryLocalizationId()
+                'id'=>$countriesLocalizations->getId()
             ]
         );
     }
@@ -117,7 +117,7 @@ class CountriesLocalizationsRepository extends ServiceEntityRepository
     private function inflate(array $row):CountriesLocalizations
     {
         $countriesLocalizations = new CountriesLocalizations();
-        $countriesLocalizations->setCountryLocalizationId((int)$row['id']);
+        $countriesLocalizations->setId((int)$row['id']);
         $countriesLocalizations->setCountryId((int)$row['country_id']);
         $countriesLocalizations->setLocalizationId((int)$row['localization_id']);
         $countriesLocalizations->setTitleName($row['title_name']);

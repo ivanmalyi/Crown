@@ -9,6 +9,7 @@ use App\Entity\CityRequest;
 use App\Entity\ColorRequest;
 use App\Entity\CountryRequest;
 use App\Entity\Localization;
+use App\Entity\MenuRequest;
 use App\Entity\ProductRequest;
 use App\Entity\Statuses\CommandStatus;
 use App\Facade\AdminFacade;
@@ -16,6 +17,7 @@ use App\Facade\CityFacade;
 use App\Facade\ColorFacade;
 use App\Facade\CountryFacade;
 use App\Facade\LocalizationFacade;
+use App\Facade\MenuFacade;
 use App\Facade\ProductFacade;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -292,9 +294,9 @@ class AdminController extends AbstractController
         $login = $this->session->get('login');
         $password = $this->session->get('password');
 
-        /*if ($login != 'SMBAdmin' or $password != '!QAZ2wsx#EDC') {
+        if ($login != 'SMBAdmin' or $password != '!QAZ2wsx#EDC') {
             return $this->render('PageNotFound.html.twig');
-        }*/
+        }
 
         $rows = json_decode($request->query->get('data'), true);
         $command = $request->query->get('command');
@@ -351,5 +353,44 @@ class AdminController extends AbstractController
         }
 
         return $this->redirect('/AdminPanel/auth');
+    }
+
+    /**
+     * @Route("/MenuAction")
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function actionMenu(Request $request)
+    {
+        $login = $this->session->get('login');
+        $password = $this->session->get('password');
+
+        /*if ($login != 'SMBAdmin' or $password != '!QAZ2wsx#EDC') {
+            return $this->render('PageNotFound.html.twig');
+        }*/
+
+        $rows = json_decode($request->query->get('data'), true);
+        $command = $request->query->get('command');
+
+        $menuRequest = [];
+        foreach ($rows as $row) {
+            $menuRequest[] = MenuRequest::validation($row);
+        }
+
+        $response = $this->selectMenuAction($menuRequest, $command);
+
+        return new Response($response);
+    }
+
+    private function selectMenuAction(array $menuRequest, string $command)
+    {
+        $menuFacade = new MenuFacade($this->getDoctrine());
+
+        if ($command == CommandStatus::UPDATE_MENU) {
+            $response = $menuFacade ->updateMenu($menuRequest);
+        }
+
+        return $response;
     }
 }

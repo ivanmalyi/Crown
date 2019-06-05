@@ -42,6 +42,11 @@ class MainPageData
     private $countries = [];
 
     /**
+     * @var Menu
+     */
+    private $menu;
+
+    /**
      * @return MainPageProduct[]
      */
     public function getVipProduct(): array
@@ -135,5 +140,21 @@ class MainPageData
     public function setSelectedProduct(array $selectedProduct): void
     {
         $this->selectedProduct = $selectedProduct;
+    }
+
+    /**
+     * @return Menu
+     */
+    public function getMenu(): Menu
+    {
+        return $this->menu;
+    }
+
+    /**
+     * @param Menu $menu
+     */
+    public function setMenu(Menu $menu): void
+    {
+        $this->menu = $menu;
     }
 }

@@ -9,6 +9,7 @@ use App\Entity\ColorsLocalizations;
 use App\Entity\CountriesLocalizations;
 use App\Entity\Localization;
 use App\Entity\MainPageData;
+use App\Entity\Menu;
 use App\Entity\ProductLocalization;
 use App\Entity\MainPageProduct;
 
@@ -58,9 +59,12 @@ class MainPageFacade extends AbstractFacade
 
         $countries = $this->managerRegistry->getRepository(CountriesLocalizations::class)
             ->findCountriesByLocalizationId($localization);
-
         $mainPageData->setCountries($countries);
 
+        $menu = $this->managerRegistry->getRepository(Menu::class)
+            ->findMenuByLocalization($localization);
+
+        $mainPageData->setMenu($menu);
 
         return $mainPageData;
     }

@@ -69,7 +69,7 @@ class CountryFacade extends AbstractFacade
 
             foreach ($countryRequest->getCountriesLocalizations() as $countriesLocalization) {
                 $countriesLocalization->setCountryId($countryRequest->getCountry()->getId());
-                if ($countriesLocalization->getCountryLocalizationId() !== 0) {
+                if ($countriesLocalization->getId() !== 0) {
                     $this->managerRegistry->getRepository(CountriesLocalizations::class)
                         ->updateCountryLocalization($countriesLocalization, $countryRequest->getCountry()->getId());
                 } else {

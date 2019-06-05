@@ -1,0 +1,68 @@
+<!-- Modal -->
+<div class="modal fade" id="menu" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Обновить текст</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div  class="modal-body">
+                <span class="form-control-lg"><a>Текст главной страницы и меню*</a></span>
+                <form id="menu-text">
+                    {% for localization in localizations %}
+                        <span class="input-group-text form-control-lg"><a name="{{ localization.getTag }}">{{ localization.getTag }} {{ localization.getName }}</a></span>
+                        <div class="form-row" id="{{ localization.getTag }}">
+                            <div class="col-12 col-md-2">
+                                <input id="language" type="text" class="form-control" placeholder="Кнопка выбора языка" title="Кнопка выбора языка">
+                            </div>
+                            <div class="col-12 col-md-2">
+                                <input id="from" type="text" class="form-control" placeholder="Для диапазона: 'От'" title="Для диапазона: 'От'">
+                            </div>
+                            <div class="col-12 col-md-2">
+                                <input id="to" type="text" class="form-control" placeholder="Для диапазона: 'До'" title="Для диапазона: 'До'">
+                            </div>
+                            <div class="col-12 col-md-2">
+                                <input id="year" type="text" class="form-control" placeholder="Возраст" title="Возраст">
+                            </div>
+                            <div class="col-12 col-md-2">
+                                <input id="height" type="text" class="form-control" placeholder="Рост" title="Рост">
+                            </div>
+                            <div class="col-12 col-md-2">
+                                <input id="color" type="text" class="form-control" placeholder="Цвет" title="Цвет">
+                            </div>
+                            <div class="col-12 col-md-2">
+                                <input id="country" type="text" class="form-control" placeholder="Страна" title="Страна">
+                            </div>
+                            <div class="col-12 col-md-2">
+                                <input id="city" type="text" class="form-control" placeholder="Город" title="Город">
+                            </div>
+                            <div class="col-12 col-md-2">
+                                <input id="search" type="text" class="form-control" placeholder="Кнопка поиска" title="Кнопка поиска">
+                            </div>
+                            <div class="col-12 col-md-2">
+                                <input id="show" type="text" class="form-control" placeholder="Кнопка показать продукт" title="Кнопка показать продукт">
+                            </div>
+                            <div class="col-12 col-md-2">
+                                <input id="name" type="text" class="form-control" placeholder="имя" title="имя">
+                            </div>
+                            <div class="col-12 col-md-2">
+                                <input id="description" type="text" class="form-control" placeholder="описание" title="описание">
+                            </div>
+                            <div class="col-12 col-md-5">
+                                <input id="contacts" type="text" class="form-control" placeholder="Контакты" title="Контакты">
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-primary" onclick="addMenuText()">Обновить</button>
+            </div>
+        </div>
+    </div>
+</div>

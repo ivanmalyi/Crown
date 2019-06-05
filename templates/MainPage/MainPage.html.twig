@@ -1,143 +1,145 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
-    <div class="container" style="background: rgba(85,85,85,0.04)">
-        <div class="row">
-            <div class="col-xs-5 col-sm-10">
-            <img src="/asset/img/header_img.jpg" class="img-fluid" alt="Responsive image">
+    <body onload="loadMainPage()">
+        <div class="container" style="background: rgba(85,85,85,0.04)">
+            <div class="row">
+                <div class="col-xs-5 col-sm-10">
+                <img src="/asset/img/header_img.jpg" class="img-fluid" alt="Responsive image">
+                </div>
+                <div class="col-xs-5 col-sm-2">
+                    <select id="select_language" onclick="loadPageForSelectedLanguage()" class="form-control">
+                        <label for="select_language">{{ MainPageData.getMenu.getLanguage }}</label>
+                        <option selected>{{ MainPageData.getMenu.getLanguage }}...</option>
+                        {% for localization in MainPageData.getLocalizations %}
+                            <option value="{{ localization.getTag }}">{{ localization.getName }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
             </div>
-            <div class="col-xs-5 col-sm-2">
-                <select id="select_language" onclick="loadPageForSelectedLanguage()" class="form-control">
-                    <label for="select_language">Language</label>
-                    <option selected>Language...</option>
-                    {% for localization in MainPageData.getLocalizations %}
-                        <option value="{{ localization.getTag }}">{{ localization.getName }}</option>
-                    {% endfor %}
-                </select>
+            <br>
+            <div class="row"><a>{{ MainPageData.getMenu.getContacts }}: </a></div>
+            <div class="row" style="background: rgba(0,97,215,0.07)">
+                {% include "MainPage/Menu.html.twig" %}
             </div>
-        </div>
-        <br>
-        <div class="row"><a>Contacts: </a></div>
-        <div class="row" style="background: rgba(0,97,215,0.07)">
-            {% include "MainPage/Menu.html.twig" %}
-        </div>
-        <div class="row">
-            <div class="col-xs-5 col-sm-8">
-                <form class="text-center m-5">
-                    {% if MainPageData.getSelectedProduct is empty %}
-                        {% set Products =  MainPageData.getVipProduct  %}
-                    {% else %}
-                        {% set Products =  MainPageData.getSelectedProduct  %}
-                    {% endif %}
+            <div class="row">
+                <div class="col-xs-5 col-sm-8">
+                    <form class="text-center m-5">
+                        {% if MainPageData.getSelectedProduct is empty %}
+                            {% set Products =  MainPageData.getVipProduct  %}
+                        {% else %}
+                            {% set Products =  MainPageData.getSelectedProduct  %}
+                        {% endif %}
 
-                    {% for Product in Products %}
-                        <div class="form-group title-vip" >
-                            <div class="row">
-                                <div class="col-xs-5 col-sm-6">
-                                    <br>
-                                    <img class="rounded" src='/asset/img/products/{{ Product.getProductId }}/{{ Product.getAvatar }}' width="80%" height="80%">
-                                </div>
-                                <div class="col-xs-5 col-sm-6">
-                                    {% if MainPageData.getSelectedProduct is empty %}
+                        {% for Product in Products %}
+                            <div class="form-group title-vip" >
+                                <div class="row">
+                                    <div class="col-xs-5 col-sm-6">
+                                        <br>
+                                        <img class="rounded" src='/asset/img/products/{{ Product.getProductId }}/{{ Product.getAvatar }}' width="80%" height="80%">
+                                    </div>
+                                    <div class="col-xs-5 col-sm-6">
+                                        {% if MainPageData.getSelectedProduct is empty %}
+                                            <div class="col">
+                                                <img class="rounded" src='/asset/img/vip.png' width="30%" height="30%">
+                                            </div>
+                                        {% endif %}
+                                        <br>
                                         <div class="col">
-                                            <img class="rounded" src='/asset/img/vip.png' width="30%" height="30%">
-                                        </div>
-                                    {% endif %}
-                                    <br>
-                                    <div class="col">
-                                        <div class="row">
-                                            <div class="col-xs-6 col-sm-4">
-                                                <span><a>Name: </a></span>
-                                            </div>
-                                            <div class="col-xs-6 col-sm-3">
-                                                <a style="color: white">{{ Product.getTitleName }}</a>
+                                            <div class="row">
+                                                <div class="col-xs-6 col-sm-4">
+                                                    <span><a>{{ MainPageData.getMenu.getName }}: </a></span>
+                                                </div>
+                                                <div class="col-xs-6 col-sm-3">
+                                                    <a style="color: white">{{ Product.getTitleName }}</a>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="row">
-                                            <div class="col-xs-6 col-sm-4">
-                                                <span><a>Year: </a></span>
-                                            </div>
-                                            <div class="col-xs-6 col-sm-3">
-                                                <a style="color: white">{{ Product.getYear }}</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="row">
-                                            <div class="col-xs-6 col-sm-4">
-                                                <span><a>Height: </a></span>
-                                            </div>
-                                            <div class="col-xs-6 col-sm-3">
-                                                <a style="color: white">{{ Product.getHeight }}</a>
+                                        <div class="col">
+                                            <div class="row">
+                                                <div class="col-xs-6 col-sm-4">
+                                                    <span><a>{{ MainPageData.getMenu.getYear }}: </a></span>
+                                                </div>
+                                                <div class="col-xs-6 col-sm-3">
+                                                    <a style="color: white">{{ Product.getYear }}</a>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="row">
-                                            <div class="col-xs-6 col-sm-4">
-                                                <span><a>Color: </a></span>
-                                            </div>
-                                            <div class="col-xs-6 col-sm-3">
-                                                <a style="color: white">{{ Product.getColor }}</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="row">
-                                            <div class="col-xs-6 col-sm-4">
-                                                <span><a>Country: </a></span>
-                                            </div>
-                                            <div class="col-xs-6 col-sm-3">
-                                                <a style="color: white">{{ Product.getCountry }}</a>
+                                        <div class="col">
+                                            <div class="row">
+                                                <div class="col-xs-6 col-sm-4">
+                                                    <span><a>{{ MainPageData.getMenu.getHeight }}: </a></span>
+                                                </div>
+                                                <div class="col-xs-6 col-sm-3">
+                                                    <a style="color: white">{{ Product.getHeight }}</a>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="row">
-                                            <div class="col-xs-6 col-sm-4">
-                                                <span><a>City: </a></span>
-                                            </div>
-                                            <div class="col-xs-6 col-sm-3">
-                                                <a style="color: white">{{ Product.getCity }}</a>
+                                        <div class="col">
+                                            <div class="row">
+                                                <div class="col-xs-6 col-sm-4">
+                                                    <span><a>{{ MainPageData.getMenu.getColor }}: </a></span>
+                                                </div>
+                                                <div class="col-xs-6 col-sm-3">
+                                                    <a style="color: white">{{ Product.getColor }}</a>
+                                                </div>
                                             </div>
                                         </div>
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#product-target{{ Product.getProductId }}">
-                                            show
-                                        </button>
-                                    </div>
-                                    {% set Product = { 'Product': Product } %}
-                                    {% include "MainPage/ShowProduct.html.twig" with Product %}
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </form>
-            </div>
-            <div class="col-xs-5 col-sm-4">
-                <form class="text-center m-5">
-                    {% for randomProduct in MainPageData.getRandomProduct %}
-                        <div class="form-group title-random">
-                            <div class="row">
-                                <div class="col-xs-5 col-sm-4">
-                                    <img class="rounded" src='/asset/img/products/{{ randomProduct.getProductId }}/{{ randomProduct.getAvatar }}' width="100%" height="100%">
-                                </div>
-                                <div class="col-xs-5 col-sm-6">
-                                    <div class="col">
-                                        <a>{{ randomProduct.getTitleName }}</a>
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#product-target{{ randomProduct.getProductId }}">
-                                        show
-                                        </button>
+                                        <div class="col">
+                                            <div class="row">
+                                                <div class="col-xs-6 col-sm-4">
+                                                    <span><a>{{ MainPageData.getMenu.getCountry }}: </a></span>
+                                                </div>
+                                                <div class="col-xs-6 col-sm-3">
+                                                    <a style="color: white">{{ Product.getCountry }}</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="row">
+                                                <div class="col-xs-6 col-sm-4">
+                                                    <span><a>{{ MainPageData.getMenu.getCity }}: </a></span>
+                                                </div>
+                                                <div class="col-xs-6 col-sm-3">
+                                                    <a style="color: white">{{ Product.getCity }}</a>
+                                                </div>
+                                            </div>
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#product-target{{ Product.getProductId }}">
+                                                {{ MainPageData.getMenu.getShows }}
+                                            </button>
+                                        </div>
+                                        {% set Product = { 'Product': Product } %}
+                                        {% include "MainPage/ShowProduct.html.twig" with Product %}
                                     </div>
                                 </div>
                             </div>
-                            {% set Product = { 'Product': randomProduct } %}
-                            {% include "MainPage/ShowProduct.html.twig" with Product %}
-                        </div>
-                    {% endfor %}
-                </form>
+                        {% endfor %}
+                    </form>
+                </div>
+                <div class="col-xs-5 col-sm-4">
+                    <form class="text-center m-5">
+                        {% for randomProduct in MainPageData.getRandomProduct %}
+                            <div class="form-group title-random">
+                                <div class="row">
+                                    <div class="col-xs-5 col-sm-4">
+                                        <img class="rounded" src='/asset/img/products/{{ randomProduct.getProductId }}/{{ randomProduct.getAvatar }}' width="100%" height="100%">
+                                    </div>
+                                    <div class="col-xs-5 col-sm-6">
+                                        <div class="col">
+                                            <a>{{ randomProduct.getTitleName }}</a>
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#product-target{{ randomProduct.getProductId }}">
+                                                {{ MainPageData.getMenu.getShows }}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% set Product = { 'Product': randomProduct } %}
+                                {% include "MainPage/ShowProduct.html.twig" with Product %}
+                            </div>
+                        {% endfor %}
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
+    </body>
 {% endblock %}
