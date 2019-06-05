@@ -39,7 +39,7 @@
                                         <img class="rounded" src='/asset/img/products/{{ Product.getProductId }}/{{ Product.getAvatar }}' width="80%" height="80%">
                                     </div>
                                     <div class="col-xs-5 col-sm-6">
-                                        {% if MainPageData.getSelectedProduct is empty %}
+                                        {% if Product.getVip == 1 %}
                                             <div class="col">
                                                 <img class="rounded" src='/asset/img/vip.png' width="30%" height="30%">
                                             </div>

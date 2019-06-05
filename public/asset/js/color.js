@@ -27,6 +27,7 @@ function addColor() {
                 success: function (response) {
                     if (parseInt(response) === 1) {
                         alert('Добавлено');
+                        location.reload(true);
                     } else {
                         alert('Не удалось добавить');
                     }

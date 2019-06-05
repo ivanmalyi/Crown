@@ -13,7 +13,7 @@
                     <div class="col">
                         <div id="dropdownLocalization">
                             {% for localization in localizations %}
-                                <a id="{{ localization.getId }}" onclick="findLocalization(this.id)" class="dropdown-item" href="#">{{ localization.getName }}</a>
+                                <a id="{{ localization.getId }}" onclick="findLocalization(this.id)" class="dropdown-item">{{ localization.getName }}</a>
                             {% endfor %}
                         </div>
                     </div>

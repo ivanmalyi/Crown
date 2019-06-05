@@ -93,6 +93,11 @@ class ColorsLocalizationsRepository extends ServiceEntityRepository
         );
     }
 
+    /**
+     * @param Localization $localization
+     * @return array
+     * @throws \Doctrine\DBAL\DBALException
+     */
     public function findColorsByLocalizationId(Localization $localization): array
     {
         $conn = $this->getEntityManager()->getConnection();
@@ -113,6 +118,10 @@ class ColorsLocalizationsRepository extends ServiceEntityRepository
         return $colors;
     }
 
+    /**
+     * @param array $row
+     * @return ColorsLocalizations
+     */
     private function inflate(array $row): ColorsLocalizations
     {
         $colorsLocalizations = new ColorsLocalizations();

@@ -1,4 +1,4 @@
-function findLocalization() {
+function findLocalizationBrowser() {
     var language = window.navigator.language;
 
     if (language !== undefined && language !== false) {
@@ -11,7 +11,7 @@ function findLocalization() {
 }
 
 function loadMainPage() {
-    var language = findLocalization();
+    var language = findLocalizationBrowser();
     $.ajax({
         type: "GET",
         url: '/',
@@ -38,7 +38,7 @@ function loadPageForSelectedLanguage() {
 
 function findCityForMenu(id) {
 
-    var language = findLocalization();
+    var language = findLocalizationBrowser();
 
     var data = [];
     data.push({CountryId: id});
@@ -72,7 +72,7 @@ function findProductByFilter() {
     var countryId = document.getElementById("select_country").value;
     var cityId = document.getElementById("select_city").value;
 
-    var language = findLocalization();
+    var language = findLocalizationBrowser();
 
 
     var data = {

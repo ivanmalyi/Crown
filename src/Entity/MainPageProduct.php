@@ -62,6 +62,11 @@ class MainPageProduct
     private $images;
 
     /**
+     * @var int
+     */
+    private $vip;
+
+    /**
      * @return int
      */
     public function getProductId(): int
@@ -219,5 +224,21 @@ class MainPageProduct
     public function setImages(array $images): void
     {
         $this->images = $images;
+    }
+
+    /**
+     * @return int
+     */
+    public function getVip(): int
+    {
+        return $this->vip;
+    }
+
+    /**
+     * @param int $vip
+     */
+    public function setVip(int $vip): void
+    {
+        $this->vip = $vip;
     }
 }

@@ -109,7 +109,7 @@ class ProductLocalizationRepository extends ServiceEntityRepository
     {
         $conn = $this->getEntityManager()->getConnection();
 
-        $sql = 'select p.id as product_id, p.height, p.year, p.avatar, cl.title_name as color_name, pl.tag,
+        $sql = 'select p.id as product_id, p.height, p.year, p.avatar, p.vip, cl.title_name as color_name, pl.tag,
                   ctry_l.title_name as country_name, city_l.title_name as city_name, pl.title_name, pl.description
                 from  product as p
                 left join product_localization as pl on p.id = pl.product_id
@@ -149,6 +149,7 @@ class ProductLocalizationRepository extends ServiceEntityRepository
         $mainPageProduct->setCity($row['city_name']);
         $mainPageProduct->setTitleName($row['title_name']);
         $mainPageProduct->setDescription($row['description']);
+        $mainPageProduct->setVip((int)$row['vip']);
 
         return $mainPageProduct;
     }
@@ -179,7 +180,7 @@ class ProductLocalizationRepository extends ServiceEntityRepository
 
         $strRandId = implode(',', $randProductId);
 
-        $sql2 = "select p.id as product_id, p.height, p.year, p.avatar, cl.title_name as color_name, pl.tag,
+        $sql2 = "select p.id as product_id, p.height, p.year, p.avatar, p.vip, cl.title_name as color_name, pl.tag,
                   ctry_l.title_name as country_name, city_l.title_name as city_name, pl.title_name, pl.description
                 from  product as p
                 left join product_localization as pl on p.id = pl.product_id
@@ -202,12 +203,18 @@ class ProductLocalizationRepository extends ServiceEntityRepository
         return $productsRequest;
     }
 
+    /**
+     * @param FilterRequest $filterRequest
+     * @param Localization $localization
+     * @return array
+     * @throws \Doctrine\DBAL\DBALException
+     */
     public function findSelectedProducts(FilterRequest $filterRequest, Localization $localization): array
     {
         $conn = $this->getEntityManager()->getConnection();
 
         $placeholders = ['localizationId'=>$localization->getId()];
-        $sql = 'select p.id as product_id, p.height, p.year, p.avatar, cl.title_name as color_name, pl.tag,
+        $sql = 'select p.id as product_id, p.height, p.year, p.avatar, p.vip, cl.title_name as color_name, pl.tag,
                   ctry_l.title_name as country_name, city_l.title_name as city_name, pl.title_name, pl.description
                 from  product as p
                 left join product_localization as pl on p.id = pl.product_id
